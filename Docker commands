@@ -1,0 +1,6 @@
+docker login edge-registry.demo.trilliant.com
+curl -X get -u acardoso https://edge-registry.demo.trilliant.com/v2/_catalog
+docker pull edge-registry.demo.trilliant.com/uhes:11.3.132
+docker service ls
+docker service logs -f unity_phantom1
+docker stack deploy -c est.yml unity
