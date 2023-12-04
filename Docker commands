@@ -1,6 +1,16 @@
-docker login edge-registry.demo.trilliant.com
-curl -X get -u acardoso https://edge-registry.demo.trilliant.com/v2/_catalog
-docker pull edge-registry.demo.trilliant.com/uhes:11.3.132
+login image repositories:
+  docker login edge-registry.demo.trilliant.com 
+  docker login experimental-registry.demo.trilliant.com
+List the images available on the repo:
+  curl -X get -u acardoso https://edge-registry.demo.trilliant.com/v2/_catalog
+  curl -X get -u acardoso https://experimental-registry.demo.trilliant.com/v2/_catalog
+List the tags available by image on the repo:
+  curl -X get -u acardoso https://edge-registry.demo.trilliant.com/v2/uhes/tags/list
+  curl -X get -u acardoso https://experimental-registry.demo.trilliant.com/v2/activemq/tags/list
+Pull one image:
+  docker pull edge-registry.demo.trilliant.com/uhes:11.3.132
+  docker pull experimental-registry.demo.trilliant.com/activemq
+
 docker service ls
 docker service logs -f unity_phantom1
 docker stack deploy -c est.yml unity
