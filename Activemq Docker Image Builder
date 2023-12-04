@@ -1,0 +1,7 @@
+Download the apache-activemq software version you need to build
+Make sure that you copied the tar file version in the folder -- Ex: apache-activemq-5.16.7-bin.tar.gz
+Build the image with:
+	docker build . -t experimental-registry.demo.trilliant.com/activemq-service:5.16.7
+Push the image to the unstable-registry.demo.trilliant.com docker registry with docker-pusher if necessary
+
+
