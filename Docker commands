@@ -14,3 +14,7 @@ Pull one image:
 docker service ls
 docker service logs -f unity_phantom1
 docker stack deploy -c est.yml unity
+
+#RUn commands on Docker containers
+docker ps -- to identify the container_id
+docker exec -it <CONTAINER_ID> sh
