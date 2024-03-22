@@ -5,3 +5,10 @@ sudo systemctl enable mysqld
 sudo mysql_secure_installation
 mysqladmin -u root -p version
 mysql -u root -p
+******
+show databases;
+*******
+DROP DATABASE KM_V2_V6;
+create database KM_V2_V6;
+grant all on KM_V2_V6.* to 'km_user'@'%';
+*****
