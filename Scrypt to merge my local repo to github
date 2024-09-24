@@ -1,0 +1,5 @@
+cd /home/alejandrocardoso/Projects/Cloned_Repos/DevOps/
+git fetch origin
+git merge origin/main
+git commit Basic_Python_Syntax_introduction.py -m "third file commited from ubuntu HomeLab"
+git remote set-url origin https://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@github.com/jcardogo/DevOps
