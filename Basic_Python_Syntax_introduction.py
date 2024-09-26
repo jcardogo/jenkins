@@ -680,6 +680,219 @@ while x <= 10:
     x += 1
 print(sum)
 ######MODULE4####################
+print("What is a string")
+name = "Sasha"
+color = 'Gold'
+# place = "Cambridge' will throw an error
+pet = ""
+print( "Name:", name + ", favorite color:", color)
+print("example " * 3)
+pet = "looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog cat"
+print(len(pet))
+#Parts of a string
+name = "Jaylen"
+print (name[1])
+print (name[0])
+print (name[5])
+# print (name[6]) throw an error becouse there is no character on spot 6
+text = "Random string with a lot of characters"
+print(text[-1])
+print(text[-2])
+color = "Orange"
+print(color[1:4]) # print characters from 1 to 4 on the string
+fruit = "Pineapple"
+print(fruit[:4])
+print(fruit[4:])
+#replacing one character on a string
+message = "A kong string with a silly typo"
+new_message = message[0:2] + "l" + message[3:]
+print(new_message)
+#function .index
+pets = "Cats & Dogs"
+print("Index of '&':", pets.index("&"))
+print("Index of 'C':", pets.index("C"))
+print("Index of 'Dog':", pets.index("Dog"))
+print("Index of 's':", pets.index("s"))
+print("Dragons" in pets)
+print("Cats" in pets) #boolean to check strings
+#
+def replace_domain(email, old_domain, new_domain):
+    if "@" + old_domain in email:
+        index = email.index("@" + old_domain)
+        new_email = email[:index] + "@" + new_domain
+        return new_email
+    return email
+print(replace_domain("jcardogo@gmail.com", "gmail.com", "hotmail.com"))
+#More string methods
+print("---More string methods")
+print("Mountains".upper()) 
+print("Mountains".lower())
+answer = "YES"
+if answer.lower() == "yes":
+    print("User said yes")
+print(" yes ".strip()) # to get rid of spaces, tabs or nule characters
+print(" yes ".strip())
+print(" yes".lstrip())
+print(" yes ".rstrip())
+print("The number of time e occurs in this string is 4".count("e"))
+print("Forest".endswith("rest"))
+print("Forest".isnumeric())
+print("123456".isnumeric())
+print(int("12345")+int("678910"))
+print(" ".join(["This", "is", "a", "phrase", "joined", "by", "spaces"]))
+print("...".join(["This", "is", "a", "phrase", "joined", "by", "triple", "dots"]))
+print("This is another example".split())
+###Formating strigns
+name = "Manny"
+number = len(name) * 3
+print("Hello {}, your lucky number is {}".format(name, number))
+print("Your lucky number is {number}, {name}.".format(name=name, number=len(name)))
+price = 7.5
+with_tax = price *1.09
+print(price, with_tax)
+print("Base price: ${:.2f}. With Tax: ${:.2f}".format(price, with_tax))
+def to_celsius(x):
+    return (x-32)*5/9
+for x in range(0,101,10):
+    print("{:>3} F | {:>6.2f} C".format(x, to_celsius(x)))
+#String Reference guide
+print("----String Reference guide")
+print(len("abcde")) 
+for c in "abcde": print(c)
+print("abc" in "abcde")
+print("def" in "abcde")
+print("abcde"[2])
+print("abcde"[-1])
+print("abcde"[0:2])
+print("abcd"[2:])
+print("AaBbCcDdEe".lower())
+print("AaBbCcDdEe".upper())
+print("     Hello      ".lstrip())
+print("     Hello      ".rstrip())
+print("     Hello      ".strip())
+test = "How much wood would a woodchuck chuck"
+print(test.count("wood"))
+print("12345".isnumeric())
+print("-123.45".isnumeric())
+print("xyzzy".isalpha())
+print(test.split()) 
+test1 = "How-much-wood-would-a-woodshuck-chuck"
+print(test1.split("-"))
+print(test.replace("wood", "plastic"))
+print("-".join(test.split()))
+#Here are the items in the customer's basket. Each item is a tuple
+#of (item name, weight, price per pound).
+#
+print("")
+print("----Welcome to the new BASKET SUPERMARKET -----")
+for times in range (2):
+    print(" ")
+basket = [
+    ("Peaches", 3.0, 2.99),
+    ("Pears", 5.0, 1.66),
+    ("Plums", 2.5, 3.99)
+]
+
+#Calculate the total price of each item (weigth times price per pound)
+# and add the up to get a subtotal.
+# 
+subtotal = 0.00
+for item in basket:
+    fruit, weight, unit_price = item
+    subtotal += (weight * unit_price)
+
+#Now calculate the sales tax and total bill.
+#  
+tax_rate = 0.06625
+tax_amt = subtotal * tax_rate
+total = subtotal + tax_amt
+#Print the receipt for the customer.
+#
+print("Subtotal:", subtotal)
+print("Sales Tax:", tax_amt)
+print("total:", total)
+print("Best way to print--")
+print("Subtotal:  ${:>4.2f}".format(subtotal))
+print("Sales Tax: ${:>4.2f}".format(tax_amt))
+print("Total:     ${:>4.2f}".format(total))
+
+output = "You are buying {} punds of {} at {} per pund.".format(weight, fruit, unit_price)
+print(output)
+
+# Print the receipt for the customer. The format string ":10,.2f" 
+# works as follows:
+#   - ":10" makes the output 10 characters wide.
+#   - "," inserts thousands separators between groups of digits.
+#   - ".2" limits the output to two digits after the decimal.
+#   - "f" tells Python to expect a floating-point number.
+#
+print("Copied from course")
+print("Subtotal:     ${:10,.2f}".format(subtotal))
+print("Sales Tax:    ${:10,.2f}".format(tax_amt))
+print("Total:        ${:10,.2f}".format(total))
+
+#########Formatted string literals
+print("----------------Formatted string literals f'{}'")
+name="Micah"
+print(f'Hello {name}')
+item="Purple Cup"
+amount=5
+price=amount*3.25
+print(f'Item: {item} - Amount: {amount} - Price: {price:.2f}')
+#####Study Guide:Strings
+print("----Study Guide; STRINGS")
+print("#Skills group1: mirrored_string")
+def mirrored_string(my_string):
+    forwards = ""
+    backwards = ""
+    for character in my_string:
+        if character.isalpha():
+            forwards += character
+            backwards = character + backwards
+    if forwards.lower() == backwards.lower():
+        return True
+    return False
+print(mirrored_string("12 Noon"))
+print(mirrored_string("Was it a cat or a cat I saw"))
+print(mirrored_string("'eve, madam Eve"))
+print("#Skills group 2: converter_weigth")
+def convert_weigth(ounces):
+    pounds = ounces/16
+    result = "{} ounces equals {:.2f} pounds".format(ounces,pounds)
+    return result
+print(convert_weigth(12))
+print(convert_weigth(50.5))
+print(convert_weigth(16))
+print("#Skill group 3: Username")
+def username(last_name, birth_year):
+    return("{}{}".format(last_name[0:3],birth_year))
+print(username("Ivanov","1985"))
+print(username("Rodriguez", "2000"))
+print(username("Deng", "1991"))
+print("#Skill group 4: replace_dates")
+def replace_date(schedule, old_date, new_date):
+    if schedule.endswith(old_date):
+        p = len(old_date)
+        new_schedule = schedule[:-p] + schedule[-p:].replace(old_date, new_date)
+        return new_schedule
+    return schedule
+print(replace_date("Last year's annual report will be released in March 2023", "2023", "2024"))
+print(replace_date("In April, the CEO will hold a conference", "April", "May"))
+print(replace_date("The convention is scheduled for October", "October", "June"))
+#####Use of lists
+print("#########Use of lists ##############")
+x=['Now', 'we', 'are', 'cooking!']
+print(x)
+print(type(x))
+print(len(x))
+print("are" in x)
+print(x[0])
+print(x[3])
+print(x[len(x)-1])
+print(x[1:3])
+print(x[:2])
+print(x[2:])
+
 
 
 
