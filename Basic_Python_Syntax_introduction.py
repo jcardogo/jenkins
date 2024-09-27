@@ -892,7 +892,93 @@ print(x[len(x)-1])
 print(x[1:3])
 print(x[:2])
 print(x[2:])
+#Introduction to lists
+print("---Introduction to lists:")
+fruits = ['Pineapple', "Banana", 'Apple', 'Melon']
+fruits.append('Kiwi') #used to add a element to a secuenced list at the end
+print(fruits)
+fruits.insert(0, 'Orange') #Used to add one element on a specific index location on the secuenced list
+fruits.insert(25, 'Peach')
+print(fruits)
+fruits.remove('Melon')
+print(fruits)
+fruits.pop(3)
+print(fruits)
+fruits[2] = "Strawberry"
+print(fruits)
+#Review
+print("Review of lists")
+fullname = ('Grace', 'M', 'Hopper')
+def convert_seconds(seconds):
+    hours = seconds // 3600
+    minutes = (seconds - hours *3600 ) // 60
+    remaining_seconds = seconds - hours * 3600 - minutes * 60
+    return hours, minutes, remaining_seconds
+result = convert_seconds(5000)
+print(type(result))
+hours, minutes, seconds = result
+print(hours, minutes, seconds)
+hours, minutes, seconds = convert_seconds(10000)
+print(hours, minutes, seconds)
+#Iterating over lists and tuples
+print("--Iterating over lists and tuples")
+animals = ['Lion', 'Zebra', 'Dolphin', 'Monkey']
+chars = 0
+for animal in animals:
+    chars += len(animal)
+print('Total characters: {}, Average length: {}'.format(chars,chars/len(animals)))
+winners = ['Ashley', 'Dylan', "Reese"]
+for index, person in enumerate(winners):
+    print("{} - {}".format(index + 1, person))
+def full_emails(people):
+    result =[]
+    for email, name in people:
+        result.append("{} <{}>".format(name, email))
+    return result
+print(full_emails([('alex@example.xom', 'Alex Diego'), ("SHay@example.com", "Shay Brandt")]))
+print("------ Exercise ")
+def skip_elements(elements):
+	# code goes here
+	new_elements = []
+	for index, element in enumerate(elements):
+		#print("{}, {} ".format(index + 1 , element))
+		if index % 2 == 0:
+		 new_elements.append(element)
+	return new_elements
 
+print(skip_elements(["a", "b", "c", "d", "e", "f", "g"])) # Should be ['a', 'c', 'e', 'g']
+print(skip_elements(['Orange', 'Pineapple', 'Strawberry', 'Kiwi', 'Peach'])) # Should be ['Orange', 'Strawberry', 'Peach']
+#List comprehensions
+#option1
+multiples = []
+for x in range (1,11):
+    multiples.append(x*7)
+print(multiples)
+#option2
+multiples = [x*7 for x in range(1,11)]
+print(multiples)
+#languages
+languages = ['Python', 'Perl', 'Ruby', 'Go', 'Java', 'C']
+lengths = [len(language) for language in languages]
+print(lengths)
+#example
+z = [x for x in range(0,101) if x % 3 ==0]
+print(z)
+#exercise
+print('Printing odd numbers function using comprehension list creation')
+def odd_numbers(n):
+	return [x for x in range(0, n+1) if (x+1) % 2 ==0]
 
-
-
+print(odd_numbers(5))  # Should print [1, 3, 5]
+print(odd_numbers(10)) # Should print [1, 3, 5, 7, 9]
+print(odd_numbers(11)) # Should print [1, 3, 5, 7, 9, 11]
+print(odd_numbers(1))  # Should print [1]
+print(odd_numbers(-1)) # Should print []
+#####Use loops for complex code and comprehention for simple code
+print('Comprehension Examples')
+#new_list = []
+#for thing in list_of_things:
+#    new_list.append(do_something(thing))
+#Create a list of tuples where each tuple contains the number 1, 2 and 3
+number = [(1,2,3) for n in range(5)]
+print (number)
