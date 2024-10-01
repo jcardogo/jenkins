@@ -982,3 +982,312 @@ print('Comprehension Examples')
 #Create a list of tuples where each tuple contains the number 1, 2 and 3
 number = [(1,2,3) for n in range(5)]
 print (number)
+###Simple list comprehension
+print("List comprehension result:")
+print([x*2 for x in range(1,11)])
+###Long form for loop
+print("Long form code result:")
+my_list = []
+for x in range (1,11):
+    my_list.append(x*2)
+print(my_list)
+###Comprehension with conditional statement
+print("List comprehension result:")
+print([x for x in range(1,101) if x % 10 == 0])
+print("Long form code result")
+my_list = []
+for x in range(1,101):
+    if x % 10 == 0:
+        my_list.append(x)
+print(my_list)
+#Practice exercise 
+print('square exercise')
+def squares(start, end):
+    return [number**2 for number in range (start,end+1)]
+print(squares(2, 3))
+print(squares(1, 5))
+print(squares(0, 10))
+# Convert a list to a tuple
+print('convert a list to a tuple')
+my_list = [1, 2, 3, 4]
+my_tuple = tuple(my_list)
+print(my_tuple)
+#Remember that altrhough parentheses are often used to define a tuple,
+#they're not always necessary. The following syntax is also valid:
+my_tuple = 1, 2, 3, "Rocko"
+print(my_tuple)
+# A tuple with a list as an element
+my_tuple = (1, 2, ['a', 'b', 'c'])
+#you can't change the tuple itself
+# my_tuple[0] = 3 #This would raise a TypeError
+
+#But you can modify the mutable elements with the tuple
+print('Modifing the one mutable element on the list belonging to the tuple')
+my_tuple[2][0] = 'x'
+print(my_tuple)
+###REturning multiple values from functions
+print('Returning multiple values from functions')
+def calculate_numbers(a, b):
+    return a+b, a-b, a*b, a/b
+result = calculate_numbers(10,2)
+print(result)
+# As above function has four aritmetic calculation the return can be asigned to a single variable result each one as a variable
+print("unpacking result from tuple to a separated variable returned")
+add_result, sub_result, mul_result, div_result = calculate_numbers(10,2)
+print("add_result:", add_result)
+print("sub_result:", sub_result)
+print("mul_result:", mul_result)
+print("div_result:", div_result)
+#List Operations and methods skills
+print('######List operations and methods skills:')
+print("----Skill 1")
+years = ['January 2023', 'May 2025', 'April 2023', 'August 2024', 'September 2025', 'December 2023']
+print(years)
+updated_years = []
+for year in years:
+    if year.endswith("2023"):
+        new = year.replace('2023','2024')
+        updated_years.append(new)
+    else:
+        updated_years.append(year)
+print(updated_years)
+print('----Skill 2')
+def squares(start, end):
+    return [n*n for n in range(start,end+1)]
+print(squares(2, 3))
+print(squares(1, 5))
+print(squares(0, 10))
+print('----Skill 3')
+#using updated_years function to 
+updated_years = [year.replace("2023","2031") if year[-4:] == "2023" else year for year in years]
+print(updated_years)
+print("----Skill 4")
+#spliting strings 
+def change_string(given_string):
+    new_string = ""
+    new_list = given_string.split()
+    for element in new_list:
+        new_string += element[1:] + "-" + element [0] + " "
+    return new_string
+print(change_string('1one 2two 3three 4four 5five'))
+print('----Skill 5: string.join()')
+def list_elements(list_name, elements):
+    return 'The ' + list_name + ' list includes: ' + ', '.join(elements)
+print(list_elements('Printers', ['Color Printer', 'Black and white printer', '3-D Printer']))
+### map method
+print('----Skill 6: map() method')
+def add_one(number):
+    return number + 1
+numbers = [1, 2, 3, 4, 5]
+result = map(add_one, numbers)
+print(list(result))
+#### zip()
+print('Skill 7: zip() method')
+names = ['Alice', 'Bob', 'Charlie']
+ages = [25, 30, 35]
+#Use zip to combine the lists
+combined = zip(names,ages)
+#convers the zip object to a list to print the result
+print(list(combined))
+###########List practice quiz
+print('---Exercise 1:')
+filenames = ['program.c', 'studio.hpp', 'sample.hpp', 'a.out', 'math.hpp', 'hpp.out']
+new_filenames = []
+for filename in filenames:
+    if filename.endswith('hpp'):
+        #print(filename) check point
+        new_filename = filename.replace('hpp', 'h')
+        #print(new_filename) check point
+        new_filenames.append(new_filename)
+    else:
+        new_filenames.append(filename)
+print(new_filenames)
+print('---Exercise 2:')
+filenames = ['program.c', 'studio.hpp', 'sample.hpp', 'a.out', 'math.hpp', 'hpp.out']
+new_filenames = [ filename.replace('hpp','h') if filename.endswith('hpp') else filename for filename in filenames]
+print(new_filenames)
+print('Exercise 3:')
+def pig_latin(text):
+    say = ""
+    words = text.split(" ")
+    for word in words:
+        new_word = word[1:] + word[0] + "ay"
+        print(new_word)
+        say += new_word + " "
+    return say
+print(pig_latin('hello how are you'))
+print(pig_latin("programming in python is fun"))
+print('Exercise 6')
+def biography_list(people):
+    #people_tuple=tuple(people)
+    for person in people:
+        #person_tuple = tuple(person)
+        name, age, profession = person
+        print("{} is {} years old and works as {}".format(name, age, profession))
+biography_list([("Ira",30,"a Chef"), ("Raj", 35, "a Lawyer"), ("Maria", 25, "an Engineer")]) 
+######## What is a Dictionary
+x = {}
+print(type(x))
+file_counts = {"jpg":10, "txt":14, "cvs":2, "py":23}
+print (file_counts)
+print (file_counts ["txt"])
+print("jpg" in file_counts)
+print("html" in file_counts)
+file_counts["cfg"] = 8 #adding a new element 
+print(file_counts)
+# data inside a dictionary is organized on pairs element-key
+for extension in file_counts:
+    print (extension) 
+for ext, amount in file_counts.items():
+    print("There are {} files with the .{} extention".format(amount, ext))
+print(file_counts.keys())
+print(file_counts.values())
+for value in file_counts.values():
+    print (value)
+def count_letters(text):
+    result = {}
+    for letter in text:
+        if letter not in result:
+            result[letter] =0
+        result[letter] += 1
+    return result
+print (count_letters("aaaaaaaaaaaa"))
+print (count_letters("tenant"))
+print (count_letters("a long string with a lot of letters"))
+####### Study guide: Dictionary Methods
+pet_dictionary = {"dogs":["Yorkie", "Colie", "Bulldog"], "cats":["Persian", "Scotish Fold", "Siberian"], "rabbits":["Angola", "Holand loop", "Harlequin" ]}
+print(pet_dictionary.get("dogs", 0))
+#####Skills
+print("------ Dictionaries Skills 1")
+# This function returns the total time, with minutes represented as 
+# decimals (example: 1 hour 30 minutes = 1.5), for all end user time
+# spent accessing a server in a given day.
+def sum_server_use_time(server):
+    #Initialize the variable as a float data type, which will be used
+    #to hold the sum  of the total hours and minutes of server usage by
+    # end user in a day.
+    total_use_time= 0.0
+
+    #Iterate through the "Server" dictionary's key and value items
+    #using a for loop.
+    for key,value in server.items():
+
+        #For each end user key, add the asociated time value to the
+        #total sum  of all end user use time.
+        total_use_time += server[key]
+        
+    # Round the returned value and limit to 2 decimal places
+    return round(total_use_time, 2)
+FileServer = {"EndUser1": 2.25, "EndUser2": 4.5, "EndUser3": 1, "EndUser4": 3.75, "EndUser5": 0.6, "EndUser6": 8}
+print(sum_server_use_time(FileServer))
+print(" ")
+print("Dictionaries skills 2")
+# This function receives a dictionary, which contains common employee 
+# last names as keys, and a list of employee first names as values. 
+# The function generates a new list that contains each employees’ full
+# name (First_name Last_Name). For example, the key "Garcia" with the 
+# values ["Maria", "Hugo", "Lucia"] should be converted to a list 
+# that contains ["Maria Garcia", "Hugo Garcia", "Lucia Garcia"].
+def list_of_full_names(employee_dictionary):
+    # Initialize the "full_names" variable as a list data type using
+    # empty [] square brackets.
+    full_names=[]
+    # The outer for loop iterates through each "last_name" key and 
+    # associated "first_name" values, in the "employee_dictionary" items.
+    for last_name, first_names in employee_dictionary.items():
+        # The inner for loop iterates over each "first_name" value in 
+        # the list of "first_names" for one "last_name" key at a time.
+        for first_name in first_names:
+            # Append the new "full_names" list with the "first_name" value
+            # concatenated with a space " ", and the key "last_name".
+            full_names.append(first_name+" "+last_name)
+    # Return the new "full_names" list once the outer for loop has 
+    # completed all iterations.
+    return (full_names)
+
+print(list_of_full_names({"Ali": ["Muhammad", "Amir", "Malik"], "Devi": ["Ram", "Amaira"], "Chen": ["Feng", "Li"]}))
+print(" ")
+print("-----Dictionaries Skills 3")
+# This function receives a dictionary, which contains resource 
+# categories (keys) with a list of available resources (values) for a 
+# company’s IT Department. The resources belong to multiple categories.
+# The function should reverse the keys and values to show which 
+# categories (values) each resource (key) belongs to. 
+def invert_resource_dict(resource_dictionary):
+    # Initialize a "new_dictionary" variable as a dict data type using
+    # empty {} curly brackets.
+    new_dictionary ={}
+    # The outer for loop iterates through each "resource_group" and 
+    # associated "resources" in the "resource_dictionary" items.
+    for resource_group, resources in resource_dictionary.items():
+        # The inner for loop iterates over each "resource" value in 
+        # the list of "resources" for one "resource_group" key at a time.
+        for resource in resources:
+            # The if-statement checks if the current "resource" value has 
+            # been appended as a key to the "new_dictionary" yet.
+            if resource in new_dictionary:
+                # If True, then append the "resource_group" as a value to the
+                # "resource", which is now the key.
+                new_dictionary[resource].append(resource_group)
+            #if false (else), then add the resource as a new key with the
+            # resourse_group as a value for that key
+            else:
+                new_dictionary[resource]=[resource_group]
+    # Return the new dictionary once the outer for loop has completed  
+    # all iterations.
+    return(new_dictionary)
+print(invert_resource_dict({"Hard Drives": ["IDE HDDs", "SCSI HDDs"], "PC Parts":  ["IDE HDDs", "SCSI HDDs", "High-end video cards", "Basic video cards"], "Video Cards": ["High-end video cards", "Basic video cards"]}))  
+######Practice quiz: Dictionaries
+print("###########Practice Quiz Dictionaries")
+
+print('exercise 1:')
+def email_list(domains):
+    emails = []
+    for domain_name, users in domains.items():
+        for user in users:
+            emails.append("{}@{}".format(user,domain_name))
+        return(emails)
+print(email_list({"gmail.com": ["clark.kent", "diana.prince", "peter.parker"], "yahoo.com": ["barbara.gordon", "jean.grey"], "hotmail.com": ["bruce.wayne"]}))
+print('Exercise 2:')
+def groups_per_user(group_dictionary):
+    user_groups={}
+    for group_name,users in group_dictionary.items():
+        for user in users:
+            if user in user_groups:
+                user_groups[user].append(group_name)
+            else:
+                user_groups[user]=[group_name]
+    return (user_groups)
+print(groups_per_user({"local": ["admin", "userA"],
+		"public":  ["admin", "userB"],
+		"administrator": ["admin"] }))    
+print("Exercise 3:")
+def add_prices(basket):
+    total=0
+    for item,price in basket.items():
+        total += price
+    return round(total, 2)
+groceries = {"bananas": 1.56, "apples": 2.50, "oranges": 0.99, "bread": 4.59, 
+	"coffee": 6.99, "milk": 3.39, "eggs": 2.98, "cheese": 5.44}
+
+print(add_prices(groceries)) # Should print 28.44
+####Object oriented programming 
+print("################ Object-oriented programming")
+class Apple:
+    def __init__(self):
+        self.color = "red"
+        self.flavor = "sweet"
+honeycrisp = Apple()
+print(honeycrisp.color)
+#Modify variables
+print("---modifying the variables on class")
+class Apple:
+    def __init__(self, color, flavor):
+        self.color = color
+        self.flavor = flavor
+honeycrisp = Apple("red", "sweet")
+fuji = Apple("red", "tart")
+print(honeycrisp.flavor)
+print(fuji.flavor)
+#Other special methods
+
