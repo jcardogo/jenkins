@@ -1285,9 +1285,11 @@ class Apple:
     def __init__(self, color, flavor):
         self.color = color
         self.flavor = flavor
+    def __str__(self):
+        return "an apple which is {} and {}".format(self.color, self.flavor)
 honeycrisp = Apple("red", "sweet")
 fuji = Apple("red", "tart")
 print(honeycrisp.flavor)
 print(fuji.flavor)
 #Other special methods
-
+print(honeycrisp)
