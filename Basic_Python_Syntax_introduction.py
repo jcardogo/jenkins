@@ -1293,3 +1293,189 @@ print(honeycrisp.flavor)
 print(fuji.flavor)
 #Other special methods
 print(honeycrisp)
+print("---Use of methods as special operators:")
+class triangle:
+        def __init__(self, base, height):
+            self.base = base
+            self.height = height
+        def area(self):
+            return 0.5 * self.base * self.height
+        def __add__(self,other):
+            return self.area() + other.area()
+triangle1 = triangle(10, 5)
+triangle2 = triangle(6, 8)
+print("The area of triangle 1 is", triangle1.area())
+print("The area of triangle 2 is", triangle2.area())
+print("The area of both triangles is", triangle1 + triangle2)
+####ful list of operators that can be overwrite https://docs.python.org/3/library/operator.html#mapping-operators-to-functions
+###Study guide:
+class ClassName:
+    """Documentation for the class."""
+    def method_name(self, other_parameters):
+        """Documentation for the method."""
+        body_of_method
+        
+def function_name(parameters):
+    """Documentation for the function."""
+    body_of_function 
+print("####Study guide: MODULE 4")
+print("-Strings methods: part one .split()")
+def sales_prices(item_and_price):
+    #Initialize variables "items" and "price" as strings
+    item = ""
+    price = ""
+    #Create a variable "item_or_price" to hold the result of split
+    item_or_price = item_and_price.split()
+    #for each elemnt "x' on split variable "item_or_price"
+    for x in item_or_price:
+        #Check if the element is a letter
+        if x.isalpha():
+            #If true, assign the element to "item" string variable and add a space
+            #for any items name containing multiple words, like "Winter fleece jacket".
+            item += x + " "
+        #Else if x is a number (if x.isalpha() is false):
+        else:
+            #Assign the element to the "price" string variable.
+            price = x
+    #Strip the extra space to the rigth of the last "item" word
+    item = item.strip()
+
+    #Return the item name and price formatted in a  sentence
+    return "{} are on sale for ${} ".format(item, price)
+#Call to the function 
+print(sales_prices("Winter fleece jackets 49.99"))
+# Should print "Winter fleece jackets are on sale for $49.99"
+print("-Strings methods: part 2 len()")
+#this function accepts a string  variable "data_field".
+def count_words(data_field):
+    #Split the string in to individual words.
+    split_data = data_field.split() 
+    #Then returned the number of words in the string using len()
+    return len(split_data)
+    # Note that it is possible to combine the len() function and the 
+    # .split() method into the same line of code by inserting the 
+    # data_field.split() command into the the len() function parameters.
+# Call to the function
+print(count_words("Catalog item 3523: Organic raw pumpkin seeds in shell"))
+# Output should be 9
+print("---Skill2: List methods")
+print("methods on lists: .reverse(), and .extend()")
+#This function accepts two variables, each containing a list of years.
+#a current "recent_first" list contains [2022, 2018, 2011, 2006].
+#an older "recent_last" list contains [1989, 1992, 1997, 2001].
+#the list need to be combined in chronological order.
+def record_profit_years(recent_first, recent_last):
+    # reverse the order of "recent_first" list so that it is on chronological order
+    recent_first.reverse()
+    #Extend the "recent_last" list by appending the newely reversed "recent_first" list.
+    recent_last.extend(recent_first)
+    #Return the "recent_last" list, which now contained the two lists combined in chronological order.
+    return recent_last
+# Assign the two lists to the two variables to be passed to the 
+# record_profit_years() function.
+recent_first = [2022, 2018, 2011, 2006]
+recent_last = [1989, 1992, 1997, 2001]
+# Call the record_profit_years() function and pass the two lists as 
+# parameters. 
+print(record_profit_years(recent_first, recent_last))
+# Should print [1989, 1992, 1997, 2001, 2006, 2011, 2018, 2022]
+print("---Skill3 using a list comprehension")
+print("use of a list comprehension with for loop")
+#the function accept two parameters: a start and an end year
+def list_years(start, end):
+    #it returns a list comprehension that creates a list of years in a for loop using a range from start to end (inclusive of the last year, using end+1)
+    return[year for year in range(start,end+1)]
+#Call the list_years() with two parameters.
+print(list_years(1972,1975))
+# Should print [1972, 1973, 1974, 1975] 
+print("use of a list comprehention using one if condition")
+#The function accept two variable integers through the parameters and returns all odd numbers betwen x and y-1.
+def odd_numbers(x,y):
+    #This comprehention use a for loop to iterate thourgh values of n in a range from x to y, with the value of y excluided (meaning keep the default range() fucntion to excluide the end value of the range)
+    #Since a incremental value is not especified, the funcion usese the default increment of +1.
+    #The if condition checks n to detect if the number is odd using the modulo operator. This condition is writen to check is divided by 2, that remainder is not 0.
+    return [n for n in range (x,y) if n % 2 != 0]
+#calling the function odd_numbers with two parameters
+print(odd_numbers(5,15))
+print("--Skill4: DIctionary Methods")
+print("use of .format() method on dictionaries")
+#The network() function accepts a dictionary "servers" as a parameter.
+def network(servers):
+    #An integer variable is initialize
+    # .d to hold the "result".
+    result=""
+    #for each "hostname" (key) and "IP_address" (value) in the servers in the "Servers" dictionary items...
+    for hostname, IP_address in servers.items():
+        #A string identifying the hostname and the IP_address is added to the "result" variable. the string .format() function and it use to plug the hostname and IP_address in the designated {} placeholders whitin the string.
+        result += "The IP address of the {} server is {}".format(hostname,IP_address) + "\n"
+    #return the result variable string
+    return result
+# Call the "network" function with the dictionary. 
+print(network({"Domain Name Server":"8.8.8.8", "Gateway Server":"192.168.1.1", "Print Server":"192.168.1.33", "Mail Server":"192.168.1.190"}))
+
+# Should print:
+# The IP address of the Domain Name Server server is 8.8.8.8
+# The IP address of the Gateway Server server is 192.168.1.1
+# The IP address of the Print Server server is 192.168.1.33
+# The IP address of the Mail Server server is 192.168.1.190    
+
+#The scores() function accepts a dictionary "game_scores" as a parameter.
+def reset_scores(game_scores):
+    #the .copy() dictionary method is used to create a copy of "the new_scores".
+    new_game_scores = game_scores.copy()
+    #the for loop iterates over new_game_scores items, with the player as the key and the score as the value.
+    for player,sore in new_game_scores.items():
+        #The dictionary operation to asing a new value to a new key is uset to reset the grade values to 0
+        new_game_scores[player]=0
+    return new_game_scores
+# The dictionary is defined.
+game1_scores = {"Arshi": 3, "Catalina": 7, "Diego": 6}
+ 
+# Call the "reset_scores" function with the "game1_scores" dictionary. 
+print(reset_scores(game1_scores))
+# Should print {'Arshi': 0, 'Catalina': 0, 'Diego': 0}
+
+print("######################EXAM")
+print("Qestion1:")
+def confirm_length(word):
+
+    # Complete the condition statement using a string operation. 
+    if len(word) > 0:
+        # Complete the return statement using a string operation.
+        return len(word) 
+    else:
+        return 0
+
+
+print(confirm_length("a")) # Should print 1
+print(confirm_length("This is a long string")) # Should print 21
+print(confirm_length("Monday")) # Should print 6
+print(confirm_length("")) # Should print 0
+def count_letters(text):
+  # Initialize a new dictionary.
+  dictionary = {} 
+  # Complete the for loop to iterate through each "text" character and 
+  # use a string method to ensure all letters are lowercase.
+  for character in text.lower():   
+    # Complete the if-statement using a string method to check if the
+    # character is a letter.
+    if character.isalpha(): 
+      # Complete the if-statement using a logical operator to check if 
+      # the letter is not already in the dictionary.
+      if character in dictionary:
+           # Use a dictionary operation to add the letter as a key
+           # and set the initial count value to zero.
+      #     ___  
+      # Use a dictionary operation to increment the letter count value 
+      # for the existing key.
+      #___  
+  return dictionary
+
+print(count_letters("AaBbCc"))
+# Should be {'a': 2, 'b': 2, 'c': 2}
+
+print(count_letters("Math is fun! 2+2=4"))
+# Should be {'m': 1, 'a': 1, 't': 1, 'h': 1, 'i': 1, 's': 1, 'f': 1, 'u': 1, 'n': 1}
+
+print(count_letters("This is a sentence."))
+# Should be {'t': 2, 'h': 1, 'i': 2, 's': 3, 'a': 1, 'e': 3, 'n': 2, 'c': 1}
