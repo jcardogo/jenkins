@@ -1,0 +1,9 @@
+Steps to run:
+
+1) Initialize Terraform: terraform init
+2) Apply Terraform configuration: terraform apply
+3) Update Ansible inventory file with EC2 instance's public IP
+4) Run Ansible playbook: ansible-playbook -i hosts ec2_config.yml
+
+Replace <EC2_INSTANCE_PUBLIC_IP>, <PATH_TO_PRIVATE_KEY>, and your_key_name with your actual values.
+Please note that this is a basic example. You should consider security best practices, such as using more secure passwords and restricting access to your resources.

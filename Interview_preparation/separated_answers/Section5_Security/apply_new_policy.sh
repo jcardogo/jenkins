@@ -1,0 +1,1 @@
+kubectl apply -f node-app-policy.yaml

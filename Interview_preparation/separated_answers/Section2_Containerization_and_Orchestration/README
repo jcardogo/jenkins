@@ -1,0 +1,10 @@
+Steps to run:
+Build the Docker image: docker build -t <your-docker-image-name> .
+Push the image to a registry (e.g., Docker Hub): docker push <your-docker-image-name>
+Apply the ConfigMap: kubectl apply -f configmap.yaml
+Apply the Deployment: kubectl apply -f deployment.yaml
+Verify the deployment: kubectl get deployments
+Verify the pods: kubectl get pods
+Verify the service: kubectl get svc
+Replace <your-docker-image-name> with your actual Docker image name.
+Please note that this is a basic example. You should consider security best practices, such as using secrets for sensitive data and configuring resource limits for your pods.

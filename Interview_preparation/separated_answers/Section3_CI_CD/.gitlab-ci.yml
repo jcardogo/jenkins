@@ -1,0 +1,55 @@
+stages:
+  - build
+  - test
+  - deploy-staging
+  - automated-testing
+  - deploy-prod
+
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode"
+  MAVEN_ARTIFACT_ID: "my-app"
+  KUBE_CONFIG: "$KUBE_CONFIG_FILE"
+  STAGING_NAMESPACE: "staging"
+  PROD_NAMESPACE: "production"
+
+build:
+  stage: build
+  script:
+    - mvn clean package $MAVEN_CLI_OPTS
+  artifacts:
+    paths:
+      - target/${MAVEN_ARTIFACT_ID}.jar
+
+test:
+  stage: test
+  script:
+    - mvn test $MAVEN_CLI_OPTS
+  dependencies:
+    - build
+
+deploy-staging:
+  stage: deploy-staging
+  script:
+    - kubectl config use-context $KUBE_CONFIG
+    - kubectl apply -f deployment.yaml -n $STAGING_NAMESPACE
+  dependencies:
+    - test
+
+automated-testing:
+  stage: automated-testing
+  script:
+    - cd selenium-tests
+    - mvn test $MAVEN_CLI_OPTS
+  dependencies:
+    - deploy-staging
+  allow_failure: true
+
+deploy-prod:
+  stage: deploy-prod
+  script:
+    - kubectl config use-context $KUBE_CONFIG
+    - kubectl apply -f deployment.yaml -n $PROD_NAMESPACE
+  dependencies:
+    - automated-testing
+  when: manual
+  allow_failure: false

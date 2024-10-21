@@ -1,0 +1,44 @@
+###Prometheus configuration
+Prometheus Configuration
+Node.js Application Metrics
+1) Install prometheus-node-exporter package in your Node.js application.
+2) Configure the exporter to expose metrics at /metrics endpoint.
+3) Add Prometheus scraper configuration in prometheus.yml:
+#####Kubernetes using prometheus
+Kubernetes Cluster Metrics
+Install Prometheus Operator using Helm.
+Configure Prometheus to scrape Kubernetes cluster metrics:
+####Grafana Dashboard
+1) Install Grafana using Helm.
+2) Create a new dashboard.
+3) Add panels for Node.js application metrics:
+    metric:Query
+    Memory Usage:node_memory_usage
+    CPU Usage:node_cpu_usage
+    Request Latency:http_request_latency
+    Request Count:http_request_count
+4) Add panels for Kubernetes cluster metrics:
+    metric:Query
+    Cluster CPU Usage:sum(kube_node_cpu_usage)
+    Cluster Memory Usage:sum(kube_node_memory_usage)
+    Pod Count:count(kube_pod_status_phase)
+    Deployment Count:count(kube_deployment_status_replicas)
+####ELK Stack configuration
+Node.js Application Logs
+1) Install winston and winston-elasticsearch packages.
+2) Configure Winston to log to Elasticsearch: winston_elasticsearch
+####Kubernetes cluster logs
+1) Install Fluentd using Helm.
+2) Configure Fluentd to collect Kubernetes cluster logs: fluentd_k8s.yaml
+
+####Kibana
+Kibana Visualization
+Install Kibana using Helm.
+Create index patterns for Node.js application logs and Kubernetes cluster logs.
+Create visualizations and dashboards for logs.
+Additional Configuration
+Secure Elasticsearch and Kibana with authentication and authorization.
+Configure log rotation and retention.
+Monitor ELK Stack performance and adjust configuration as needed.
+This setup provides a comprehensive monitoring and logging solution for your Node.js application and Kubernetes cluster.
+

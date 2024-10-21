@@ -1,0 +1,7 @@
+const AWS = require('aws-sdk');
+
+const s3 = new AWS.S3({
+  region: 'us-west-2',
+});
+
+// Use IAM role credentials

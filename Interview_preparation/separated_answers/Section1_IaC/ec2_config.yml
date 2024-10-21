@@ -1,0 +1,32 @@
+---
+- name: Configure EC2 instance
+  hosts: ec2
+  become: yes
+
+  vars:
+    ec2_host: "{{ hostvars[groups['ec2'][0]]['ansible_host'] }}"
+
+  tasks:
+  - name: Install Docker
+    apt:
+      name: docker.io
+      state: present
+
+  - name: Install Docker Compose
+    pip:
+      name: docker-compose
+      state: present
+
+  - name: Pull Nginx image
+    docker_image:
+      name: nginx:latest
+      source: pull
+
+  - name: Run Nginx container
+    docker_container:
+      name: nginx
+      image: nginx:latest
+      ports:
+        - "80:80"
+      restart: always
+      restart_policy: always

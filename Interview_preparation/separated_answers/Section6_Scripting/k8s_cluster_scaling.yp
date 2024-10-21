@@ -1,0 +1,41 @@
+import os
+from kubernetes import client, config
+
+# Load Kubernetes configuration
+config.load_kube_config()
+
+# Define Kubernetes cluster scaling configuration
+CLUSTER_NAME = "your_cluster_name"
+MIN_REPLICAS = 1
+MAX_REPLICAS = 5
+REPLICAS_BASED_ON_CPU = True
+
+def scale_cluster():
+    # Get current CPU usage
+    api = client.CustomObjectsApi()
+    cpu_usage = api.get_namespaced_custom_object(
+        group="metrics.k8s.io",
+        version="v1beta1",
+        namespace="default",
+        plural="pods",
+        name="cpu-usage",
+    )
+
+    # Scale cluster based on CPU usage
+    if REPLICAS_BASED_ON_CPU:
+        replicas = int(cpu_usage["usage"]["cpu"] / 1000 * MAX_REPLICAS)
+        replicas = max(MIN_REPLICAS, min(replicas, MAX_REPLICAS))
+    else:
+        replicas = MAX_REPLICAS
+
+    # Update deployment replicas
+    apps_api = client.AppsV1Api()
+    apps_api.patch_namespaced_deployment_scale(
+        name="your_deployment_name",
+        namespace="default",
+        body={"spec": {"replicas": replicas}},
+    )
+
+while True:
+    scale_cluster()
+    time.sleep(300)  # Scale cluster every 5 minutes

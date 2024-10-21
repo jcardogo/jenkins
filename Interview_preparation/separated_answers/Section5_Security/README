@@ -1,0 +1,82 @@
+Configure SSL/TLS Certificates using Let's Encrypt
+Step 1: Install Certbot
+    Bash
+        sudo apt-get update
+        sudo apt-get install certbot python3-certbot-nginx
+Step 2: Obtain SSL/TLS Certificate
+    Bash
+        sudo certbot --nginx -d example.com
+Step 3: Configure Node.js Application to Use SSL/TLS Certificate
+    JavaScript
+        const https = require('https');
+        const fs = require('fs');
+
+        const options = {
+        key: fs.readFileSync('/etc/letsencrypt/live/example.com/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/example.com/fullchain.pem'),
+        };
+
+        const server = https.createServer(options, (req, res) => {
+        // Handle requests
+        });
+
+        server.listen(443, () => {
+        console.log('Server listening on port 443');
+        });
+Implement IAM Roles and Policies for AWS Resources
+Step 1: Create IAM Role for Node.js Application
+    JSON
+        {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+            "Sid": "AllowAccessToS3Bucket",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::example-bucket"
+            }
+        ]
+        }
+Step 2: Attach IAM Role to EC2 Instance
+    AWS Management Console > IAM > Roles > Attach role to EC2 instance
+Step 3: Configure Node.js Application to Use IAM Role
+    JavaScript
+    const AWS = require('aws-sdk');
+
+    const s3 = new AWS.S3({
+    region: 'us-west-2',
+    });
+
+    // Use IAM role credentials
+    Configure Network Policies for Kubernetes
+    Step 1: Create Network Policy for Node.js Application
+        YAML
+            apiVersion: networking.k8s.io/v1
+            kind: NetworkPolicy
+            metadata:
+            name: node-app-policy
+            spec:
+            podSelector:
+            matchLabels:
+                app: node-app
+            ingress:
+            - from:
+            - podSelector:
+                matchLabels:
+                    app: database
+            - ports:
+                - 80
+Step 2: Apply Network Policy to Kubernetes Cluster
+    Bash
+        kubectl apply -f node-app-policy.yaml
+
+Additional Security Considerations
+Regularly update dependencies and libraries.
+Implement rate limiting and IP blocking.
+Monitor logs and security alerts.
+Use secure protocols for communication (e.g., HTTPS).
+Limit access to sensitive resources.
+By following these steps, you'll have implemented SSL/TLS certificates, IAM roles and policies, and network policies to secure your Node.js application and AWS resources.
