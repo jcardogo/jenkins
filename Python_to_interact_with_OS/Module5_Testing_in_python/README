@@ -1,0 +1,20 @@
+unittest
+A unittest provides developers with a set of tools to construct and run tests. These tests can be run on individual components or by isolating units of code to ensure their correctness. By running unittests, developers can identify and fix any bugs that appear, creating a more reliable code. In this reading, you will learn about unittest concepts, how to use and when to use them, and view an example along the way.
+
+Concepts
+Unittest relies on the following concepts:
+
+Test fixture: This refers to preparing to perform one or more tests. In addition, test fixtures also include any actions involved in testing cleanup. This could involve creating temporary or proxy databases, directories, or starting a server process.
+
+Test case: This is the individual unit of testing that looks for a specific response to a set of inputs. If needed, TestCase is a base class provided by unittest and can be used to create new test cases.
+
+Test suite: This is a collection of test cases, test suites, or a combination of both. It is used to compile tests that should be executed together.
+
+Test runner: This runs the test and provides developers with the outcome’s data. The test runner can use different interfaces, like graphical or textual, to provide the developer with the test results. It can also provide a special value to developers to communicate the test results. 
+
+Use case
+Let’s look at a test case example where the Python code simulates a cake factory and performs different functions. These include choosing different sizes and flavors of a cake, including small, medium, and large, and chocolate or vanilla. In addition, the simple class allows developers to add sprinkles or cherries to the cake, return a list of ingredients, and return the price of the cake based on size and toppings. Run the following code: 
+cake_factory.py
+
+In the code above, the cake factory class and methods are defined. Now it’s time to define the unittest methods to test the different functions of the code. The test suite includes tests for the cake’s flavor, size, toppings, ingredients, and price. The first test case in the suite will intentionally provide the wrong value—and that’s what we want! Create specific statements to make sure the program is behaving as it should. That includes providing incorrect data to determine if the program will provide failed results. Because unittest is class-based,  encapsulate these statements into test methods. 
+
