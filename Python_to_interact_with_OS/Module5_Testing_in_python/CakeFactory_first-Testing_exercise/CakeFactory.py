@@ -33,3 +33,4 @@ cake_price = cake.check_price()
 
 
 cake_ingredients, cake_price
+print(cake_ingredients, cake_price)
