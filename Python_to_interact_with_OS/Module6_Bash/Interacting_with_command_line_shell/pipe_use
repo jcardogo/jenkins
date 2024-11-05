@@ -1,0 +1,6 @@
+cat spider.txt | tr ' ' ' \n' | sort | uniq -c | sort -nr | head
+# "tr" transform the first parameter into the second parameter
+# "sort" command will sort each line alfabetically 
+# "uniq" displays each match once "-c" (count) will add the number of occurrence of this match 
+# "sort -nr" now sort the results numericaly and in reverse order 
+# "head" prints the firs 10 lines 
