@@ -1,0 +1,42 @@
+Trubleshooting and debugging 
+ - Binary Search
+ Troubleshooting: when we are solving issues on the system runing the program
+ debugging: when we are solving issues on program's code
+###Tools:
+####Network connections: 
+  - tcpdump
+  - wireshark 
+strace
+ltrace
+###Problem Solving
+1) Getting Information (What and when it happened)
+1.1) have a Reproduction Case:  is a clear description of how and when the problem appears
+2) Finding the root cause of the problem (triggers). Hint: document the process [Hardware, software, configuration]
+3) Remediation on short, intermediate and long term and document them.
+
+###Silently crashing application
+ltrace: trace libraries calls 
+strace: trace system calls 
+- strace ./application
+System calls are the calls that the programs running on our computer make to the running kernel.
+- less: to navigate to extense text logs
+- strace -o : to store the output into a file and then browse the contents of that file.
+strace -o filename_for_logs.trace ./appliation.py
+less filename_for_logs.trace
+
+Reproduction Case: A reproduction case is a way to verify if the problem is present or not.
+- check logs foles 
+- Isolate conditions that lead us to the error 
+
+####Fetching the root cause:
+iotop, which is a tool similar to top that lets us see which processes are using the most input and output. 
+iostat / vmstat : these tools show statistics on the input/output operations and the virtual memory operations.
+ionice: to make our backup system reduce its priority to access the disk and let the web services use it too.
+----Network usage
+iftop: yet another tool similar to top that shows the current traffic on the network interfaces.
+ The rsync command, which is often used for backing up data, includes a -bwlimit, just for this purpose. If that option isn't available, we can use a program like Trickle to limit the bandwidth being used.
+---COmpression algorithm, is consuming all the processing power
+we can use the nice commmand to reduce the priority of a specific process and accessing the CPU
+
+
+####Dealing with Intermittent Issues

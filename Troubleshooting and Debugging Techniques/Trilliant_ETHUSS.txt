@@ -1,0 +1,40 @@
+ETHUS:
+
+CREG (Comision de Regulacion de Energia y Gas): 24 empresas de distribucion de energia 
+    - Resolución CREG 131 de 2020, con el objeto de establecer las condiciones para la implementación de la infraestructura de medición avanzada en la prestación del servicio público domiciliario de energía eléctrica en el Sistema Interconectado Nacional, SIN.
+    - CREG 077 de 2028: MArgen de tolerancia en la perdida de precision 
+    - : para 2031 el 10% de los medidores resplazados monofasico: 1.240.977 (79%) 339.885 (21%) para 1.580.862
+    - CREG 015 de 2018: Comisión definió cuatro diferentes
+    tipos de proyectos de inversiones en los que incurren los agentes distribuidores de energía
+Tipo I: proyectos de inversión motivados en la atención de demanda que ocasionan el
+remplazo de activos existentes para obtener una mayor capacidad del sistema.
+▪ Tipo II: proyectos de inversión motivados en la atención de demanda que ocasionan la
+instalación de nuevos activos sin reemplazo de activos de existentes.
+▪ Tipo III: proyectos de inversión no motivados en la atención de demanda que remplazan
+activos existentes sin obtener una mayor capacidad del sistema.
+▪ Tipo IV: proyectos de inversión no motivados en la atención de demanda que ocasionan
+la instalación de nuevos activos.
+
+Circular CREG 007 de 2020,
+prorrogó las fechas para la entrega de la información de gastos AOM solicitados en la
+Circular anteriormente mencionada. 
+
+
+ICONTEC ntc6079-2021 https://tienda.icontec.org/gp-requisitos-para-sistemas-de-infraestructura-de-medicion-avanzada-ami-en-redes-de-distribucion-de-energia-electrica-ntc6079-2021.html
+
+RESOLUCIÓN 101 001 DE 2022: Por la cual se establecen las condiciones para la implementación de la infraestructura de medición avanzada en el SIN
+
+Espanol:
+veo en una oportunidad de alianza entre Trilliant networks (Ofreciendo su producto de unidades de conectividad y servicios de connectividad en red para AMI, asi como la plataformade procesamiento de datos)
+y el grupo empresarial ETHUSS (Proveedor fuertemente establecido en Colombia, Mexico, Guatemala, Republica Dominicana, y otros 10 paises de america latina, en servicios publicos y suministro de 
+infraestructuras y proyectos) que juntos pueden aprovechar el las recientes regulaciones en Colombia y el desarrollo en la region para, al icorporar los productos de Trilliant en la fuerte experiencia del grupo ETHUSS, 
+aprovechar desde el comienzo la competir en el liderato de la transicion a AMI para 
+
+ENG:
+I envision a strategic alliance between Trilliant Networks, a pioneer in AMI connectivity solutions, and ETHUSS (former employer), a renowned leader in Latin American public services and infrastructure.
+Together, we'll capitalize on Colombia's recent regulatory advancements and regional growth. By merging Trilliant's innovative technology with ETHUSS's vast expertise, we'll spearhead the transition to Advanced Metering Infrastructure in the region.
+I would like to have a chat about this, mean wile you can see ETHUSS web
+
+
+Detalles de la oportunidad:
+- parte uno: proveedor de dispositivos de medicion 1.5 millones 

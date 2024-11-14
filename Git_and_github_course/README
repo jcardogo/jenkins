@@ -1,0 +1,57 @@
+##########
+comparing files with bash commands:
+
+diff <file1name> <file2name>  #show lines added, removed of replaced
+diff -u <file1name> <file2name> #SHow context about the changes
+diff-u old_file new_ file > change.diff #save the diff command as a file to share findings with stakeholder
+patch <file1name> < changes.diff  #Is teh way to add moddification on .deff file to the original file
+diff -u disk_usage_original.py disk_usage_fixed.py > disk_usage.diff  #this command compares three files and print it on a .diff file
+patch disk_usage.py < disk_usage.diff #this command appli latest changes to the original file 
+
+############################
+VCS : Version Control System
+whe can see when teh changes were made and who made them, and easily revert the changes if this is not a good idea
+It also allow us to merge different changes
+Commit: is a group of changes on a group of files
+Repositories: contain set of files of related code
+DHCP protocol:  (Dynamic Host Configuration Protocol) is a network protocol used to assign and manage IP addresses and other network settings dynamically. It enables devices to connect to a network and obtain the necessary configuration automatically.
+
+GIT: created in 2005  by Linus Torvalds (The developer who started the Linux kernel)
+SCM (Source Contrill Management) = VCS 
+
+More Information About Git
+Check out the following links for more information:
+
+https://git-scm.com/doc
+
+https://www.mercurial-scm.org/
+
+https://subversion.apache.org/
+
+https://en.wikipedia.org/wiki/Version_control
+
+IDE (Integrated Development Environments)
+
+
+Additional Tools
+Check out the following links for more information:
+
+Open source DIY ethics
+    
+
+Linking a pull request to an issue
+ 
+
+Setting guidelines for repository contributors
+ 
+
+What is CI/CD? Continuous integration and continuous delivery explained 
+
+What Is CICD? What’s Important and How to Get It Right
+ 
+
+Travis CI Tutorial
+ 
+
+Build Stages
+ 

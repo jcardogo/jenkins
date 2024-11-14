@@ -1,0 +1,75 @@
+I worked on Research and Developement (R&D) department for a IOT networking company centred on AMI.
+- Work loads for UHES (Universal Head End System) for Advanced Metering Infrastructure (AMI) over DLMS messaging  
+    *1) Configuration Service (Apache Tomcat) + MariaDB
+    *2) Task Manager (Phantom): Recieve, read, process and create AMI messages over DLMS protocol to interact with end devices. (Upgrade SW + FW)
+        - 17 different driver to manage each device type ever 7 different device providers
+            + Collector / 6LBR : extender bridges allowing network connectivity
+            + 6LR: Connectivity Card (NIC)
+            + Electric meters 
+            + Gas meters
+            + Water meters
+            + Street Ligth Controllers
+            + IOT (Internet of things devices) open to ani DLMS 
+    *3) Messaging system (ACTIVEMQ)
+    *4) Shared Registry Service, certificates manager for devices authentication 
+    *5) Key Manager Service (KMS), credentials authentication service for devices
+    *6) Database schema for each service (SRS, Phantom, KMS, UHES) : 
+        - mysql on-prem
+        - Oracle DB 
+        - Percona Cluster 
+    *7) Universal Head End System (UHES) (Apache Tomcat): user interface with GPS location and  
+    *8) Automated Commissioning Process (ACP): Docker swarm solution that send a secuence of messages to acomplish the commissioning process.
+    *9) Graphana Dashboard tracking metwork performance on local servers (bottle neck on resources)
+
+- Containerized DOCKER Kubernetes(cluster of 3 Centos7):
+    * deploy a kubernetes cluster using Kubespray for each environment
+- Deployment of the product over on-prem VM servers:
+    * 
+- Deployment on CLOUD 
+    * AWS
+    * AZURE
+    * GCP
+    * Private Cloud
+- use of Java8 and Java 11 on more than 14 years old software 
+    *
+- 15 countries deployment 
+- Mutibranch Integration Pipelines (7 different pipelines attending each customer group)
+- Team work:
+    * We work with 3 teams
+        - Software Developement [Dev-Environment]: 16 people on 4 projects 
+            * SMv2: IPv2 protocol network comunication (4 people)
+                + 
+                +
+            * SMv6: IPv6 Network protocol comunication (4 People)
+            * DCC: Client specific for gas meters in UK (4 people) external contractors
+            * RPMA: specific provider  (4 people)
+        - HardWare:
+        - FirmWare:
+        - Testing: 
+-Deployment environment:
+    * Dev (Integration and deployment by request): 
+    * Smoke-Devops (Release cadency 15 days CI/CD):
+    * Testing (Every release).
+    * Demo (By request). (Experience Center in 4 regions)
+    * Performance (Every Release) for FW team use. NTC (Network Testing Center)
+    * Staging - BETA - (Each month)
+    * Production (Each quarter)
+
+#####CHALLENGES:
+- Different java version (8 and 11) on software products challenges the deployment process, upcoming reingeneering
+-Automated Testing on JACOCO 
+    *Java writeng former automated testing method used on 2019
+        - We investigate the implementation of this code but the hard coding nature of this tool just got stuck on static configuration that makes if really difficult and extensive recourse demanding to bring it back operational
+        - Invoving specific Hardware and Firmware versions make it harder to execute
+        - Lack of coding experience on the team about JACOCO to modify the testing code
+- AWS deployment lead the team to security tread bacause shared credentials with external team could expose protected information
+- Production deployment with new clients lead to hot fixes that bypassed the staging environment testign 
+- External field "integrators" knowledge transfer is challenging the documentation and knowledge transfer method leading to unexpedted errors reported
+- load balance on scaling deployments lead us to cloud instead of on-prem VMs
+- end of support to CentOS8 moving to Rocky-linux8, some differences observed
+
+#####Improvements:
+- Improvement on CI/CD analysis:
+    * Creation of multi-branch integration pypelines
+    * New script for UHES deployment 
+    * Deployment Configuration 
