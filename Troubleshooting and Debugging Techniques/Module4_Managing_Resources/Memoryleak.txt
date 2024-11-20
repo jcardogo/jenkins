@@ -1,0 +1,5 @@
+. A memory leak happens when a chunk of memory that's no longer needed is not released
+variables use some memory and after using it it should free it back when process is completed.
+Memory Profiler: using profilers as memory_profiler we can see what structure is using most of memory.  
+python3 -m memory_profiler contents_stats_simple.py 
+Profilers are really useful tools

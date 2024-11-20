@@ -1,0 +1,8 @@
+The two most important factors that determine the time it takes to get the data over the network are:
+- Latency: is the delay between sending a byte of data from one point and receiving it on the other.
+- Bandwidh: is how much data can be sent or received in a second.
+
+We can check out which processes are using the network connection by running a program like iftop, This shows how much data each active connection is sending over the network.
+
+As bandwidh is a limited resource, it is possible to restrict how much each connection takes by using trafic shaping.
+

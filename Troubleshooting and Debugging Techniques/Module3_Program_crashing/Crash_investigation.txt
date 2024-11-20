@@ -1,0 +1,153 @@
+0) CHeck application logs 
+1) HD: check hard drive disk on spare computer to verofy if that works 
+2) RAM: To check the health of our RAM, we can use the memtest 86 tool to look for errors. We run this tool on boot instead of the normal operating system so that it can access all of the available memory and verify if the data written to memory is the same when it tries to read it back. 
+3) Over heating: check device temperature at the sensor data provided by the OS.
+4) CHeck other: external devices like a graphics card or sound card. You can do this by disconnecting or replacing the devices present in the computer and checking if the crashes still occur.
+
+
+#### 0) Checking logs
+- Date and time of the crash 
+- Enable debug/strace mode
+- A Wrapper is a function or program that provides a compatibility layer between two functions or programs so they can work well together. 
+- Check environment of application
+- watchdog. This is a process that checks whether a program is running and when it's not, starts the program again. (maintain service availabe even when it crashes on a section)
+
+#### Internal server error 
+
+- ssh to the server
+-
+
+###Invalid memory
+accessing invalid memory means that the process tried to access a portion of the system's memory that wasn't assigned to it.
+-Segmentation error
+Core files store all the information related to the crash so that we or someone else can debug what's going on.
+ulimit -c unlimited # to dump a core file 
+./example #calling the program to dump a core file 
+gdb -c core example #to debug the core file from example program
+backtrace #this command run over gdb will show the failing funciton and secuencially all the functions calling to it 
+up #we can call "up" option to navigate further oin the backtrace-gdb until fefind the failing section
+list #will list the lines surrounding failing function
+print i #after identifying a specific variable that could cause the problem we can check some values 
+print argv[0] #to check one element that interact with the variable to find why it fails 
+
+
+#
+Debugging with assert
+A developer’s worst nightmare is to spend hours and hours developing and writing code for a program, and right before they deploy it, the developer discovers multiple bugs and errors. Instead of waiting until the last minute to check the correctness of your code, you should test it and check it throughout the development and writing process.
+
+In this reading, you will learn more about debugging your code with assert.
+
+What are assertions?
+Assertions are logical tests that developers use as a sanity check when writing code. In Python, you use an assert statement to write these sanity checks. When you write an assert statement, it is important to write it with one thing in mind: The condition you include with the assert statement should always be true. If the condition is false, you can use this information as a main indicator that the program has a bug. If the assert statement is false, it will automatically terminate the execution of the program and will display an error message. At this point, you can correct or fix the bug before continuing to write code to ensure you don’t introduce any additional bugs. Let’s look at an example where the condition is true and therefore no error message is displayed: 
+
+a = 3 + 4
+
+assert a == 7 
+
+Here, the assert statement says the sum of three and four should equal seven—and it does! Because the condition is true, no error message is raised to the developer.
+
+Now let’s look at an example where some code uses an assert statement, and the condition is false. The code below takes a filename as an argument and then reads the file. If your function is called with an empty string instead of a filename, it will return a FileNotFoundError message.
+
+def read_file_and_do_something(filename):
+
+  assert filename != “”
+
+  with open(filename, “r”) as fp:
+
+    …
+
+Notice that in the second line of code, the assert statement produces nothing and is blank.
+
+What are the benefits of assertions?
+Assertions are not only beneficial to programmers to help catch bugs in their code, but they also prevent code from continuing to execute when additional input would cause further errors. In addition, you can use assert statements to create error messages that are easy to understand and user-friendly. Let’s look at an example:
+
+def read_file_and_do_something(filename):
+
+  assert filename != “”
+
+  with open(filename, “r”) as fp:
+
+    …
+
+Remember this code? If someone calls this function without a filename, the assert statement produces nothing, which can be confusing. This is because you don’t know exactly what the issue is. But what if we replace the message so that we can see exactly what is wrong with the code? We could use something like this:
+
+def read_file_and_do_something(filename):
+
+  assert filename != “”, “You must specify a filename!”
+
+  with open(filename, “r”) as fp:
+
+    …
+
+
+Look at the assert statement now. It produces “You must specify a filename!”, an error message that is clear and easy to understand.
+
+Key takeaways
+Using assert statements in your code enables you to check that your code works properly, detects bugs, and keeps your sanity as a developer. Use assert statements throughout your code to create robust and reliable code, saving you from extra debugging and code rewrites.
+
+#Debugging with print
+The print statement helps you figure out what is going on with your code. You can use the print command to send messages to the screen as your program executes to help you find out how far it’s getting before it crashes. Or you can print out the value of certain variables as the program runs, which might help explain what is going wrong. If your code has a loop that doesn’t seem to be executing correctly, try adding a print statement at the top of the loop. Print out the loop invariant and any other local variables that might help you figure out what’s going on.
+
+
+How to debug with the print statement 
+Let’s take a look at how print () can help you debug your code. Here’s a simple function that divides two numbers:
+
+def divide(numerator, denominator):
+
+  return numerator / denominator
+
+What happens if you call this function but provide a value of zero for the denominator? Dividing by zero causes an error, specifically, a ZeroDivisionError. You could watch out for this condition by using a print statement:
+
+def divide(numerator, denominator):
+
+  print(“dividing {} by {}”.format(numerator, denominator))
+
+  return numerator / denominator
+
+Now, if the program crashes with a ZeroDivisionError, you’ll see your printed output right before the error:
+
+>>> divide(3,0)
+
+dividing 3 by 0
+
+Traceback (most recent call last):
+
+  File "<stdin>", line 1, in <module>
+
+  File "<stdin>", line 3, in divide
+
+ZeroDivisionError: division by zero
+
+Let’s take a look at another example. Imagine you write a function to retrieve a web page and print its contents. It might look something like this:
+
+123456
+import urllib3
+
+def get_web_page(url):
+	http = urllib3.PoolManager()
+	response = http.request("GET", url)
+	print(response.data.decode("utf-8"))
+What happens if the url parameter is incorrect or missing? What if the request causes an error? The error messages from the urllib3 library are not always clear. If the URL is missing, for example, you may see this message: LocationValueError. Therefore, you might want to use a print statement to see what the URL is before making the call:
+
+123456789101112
+import urllib3
+
+def get_web_page(url):
+	http = urllib3.PoolManager()
+
+
+	print("Retrieving URL:", url)
+	response = http.request("GET", url)
+
+
+
+Now you can try it again:
+
+12
+get_web_page("http://google.com")Retrieving URL: http://google.com
+HTTP response code: 200 OK
+When in doubt, add more print statements! You can always take them out when you’re finished debugging. The more output, the easier it is to find the cause of your error.
+
+Key takeaways
+You can use the print statement to help you figure out what is going on with your code. After you finish debugging, you can take the print statement out.  
+

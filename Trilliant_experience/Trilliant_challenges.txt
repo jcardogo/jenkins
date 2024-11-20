@@ -73,3 +73,6 @@ I worked on Research and Developement (R&D) department for a IOT networking comp
     * Creation of multi-branch integration pypelines
     * New script for UHES deployment 
     * Deployment Configuration 
+    * control the over provissioning of VMs for client usage: document the real requirements of each service depending on the use case 
+    * single server deployment for all environments below 1.000 devices 
+    

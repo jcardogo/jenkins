@@ -1,0 +1,10 @@
+use of disk:
+- Install binaries and libraries
+- Data stored by the application 
+- Cached information
+- logs
+- Temporary files 
+- Backups
+If our computer is starting to run out of space, it is possible that we are trying to store too much data in too little space.
+#No space left on device
+sudo lsof | grep deleted #whe look for the currently open files filtering for deleted ones 
