@@ -1,4 +1,4 @@
-I worked on Research and Developement (R&D) department for a IOT networking company centred on AMI.
+    I worked on Research and Developement (R&D) department for a IoT networking company centred on AMI.
 - Work loads for UHES (Universal Head End System) for Advanced Metering Infrastructure (AMI) over DLMS messaging  
     *1) Configuration Service (Apache Tomcat) + MariaDB
     *2) Task Manager (Phantom): Recieve, read, process and create AMI messages over DLMS protocol to interact with end devices. (Upgrade SW + FW)
