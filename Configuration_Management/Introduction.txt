@@ -1,0 +1,25 @@
+puppet:  the current industry standard for configuration management
+Platform as a Service or PaaS: is when a Cloud provider offers a preconfigured platform to the customer. 
+Infrastructure as a Service or IaaS: is when a Cloud provider supplies only the bare-bones computing experience. Generally, this means a virtual machine environment and any networking components needed to connect virtual machines, the Cloud provider won't care what you're using the VMs for
+web server responding to queries from external users, we might care about the number of queries that can be answered in a second which is called queries per second or QPS
+
+####Cloud:
+There are a couple of different ways that we can scale our service in the Cloud:
+    - horizontally, we add more nodes into the pool that's part of a specific service.
+    Example: Apache supports 150 concurrent connections, if you need 1.500 connections at the same time we can deploy 10 apache servers and distribute the load across them.
+    - Vertically, it means you're making your nodes bigger. When we say bigger here we're talking about the resources assigned to the nodes like memories, CPU, and disk space.
+    Example: you have a caching server and you notice it's using 95 percent of the available memory. You can deal with that by adding more memory to the node.
+Autoscaling
+- make sure you set a reasonable quotas for your auto scaling systems.
+Manualscaling
+
+
+PaaS: Some popular managed web application platforms include Amazon Elastic Beanstalk, Microsoft App Service, and Google App Engine.
+Containers: are applications that are packaged together with their configuration and dependencies.
+
+*public Clouds: services provided to you by a third party. 
+*private Clouds: when your company owns the services and the rest of your infrastructure, whether that's on-site or in a remote data center.
+*hybrid Clouds:  is a mixture of both public and private Clouds.
+*multi-Clouds: is a mixture of public and/or private Clouds across vendors AWS + AZURE + GCP + OnPrem
+
+

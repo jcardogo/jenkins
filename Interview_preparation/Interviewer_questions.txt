@@ -19,3 +19,9 @@ If you ask this question at the end of an interview, it gives you a chance to ad
 
 Key takeaways
 When interviewing, you should ask questions to learn more about the organization and show your interest in the role. When doing pre-interview research, write down any questions you may have for the organization or the role. It’s a best practice to have at least four questions prepared before the interview. If there is time available and the question seems appropriate, ask it!
+
+#my own questions
+- How do you mesure the capacity of the system implemented for the service? querys per second 
+- What is the capacity of it? 10.000 queries per second
+- How many times have you upscaling or downscaling on the last year/quarter?
+ 
