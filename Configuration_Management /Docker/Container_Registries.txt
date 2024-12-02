@@ -1,5 +1,0 @@
-Container registries in the cloud
-- Azure Container Registry (ACR)
-- AWS Elastic Container Registry (ECR)
-- GOogle Container Registry (GCR)
-

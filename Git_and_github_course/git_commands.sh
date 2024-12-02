@@ -116,8 +116,8 @@ git log --graph --oneline #this command will show a graphicall description of th
 git merge --abort #this will stop the merge and reset the files on your working tree back the previous commit on your working branch
 
 ######## Remote Repos
-
-git clone https://acardogo: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@github.com/jcardogo/DevOps.git #This command contains the PAT (Personal Access Token) and the url to access the remote repo on github
+git clone https://acardogo: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@github.com/jcardogo/DevOps.git
+ #This command contains the PAT (Personal Access Token) and the url to access the remote repo on github
 
 git push #this command will send a commit to be published on remote repo 
 
