@@ -24,4 +24,18 @@ When interviewing, you should ask questions to learn more about the organization
 - How do you mesure the capacity of the system implemented for the service? querys per second 
 - What is the capacity of it? 10.000 queries per second
 - How many times have you upscaling or downscaling on the last year/quarter?
+
+#How do you manage the storage?
+
+#Are your servers ling lived or shortlived
+
+#How is your infrastructure setted up?
+
+How SystemAdministration processes and security is?
+
+How mature is your automation process?
+
+
+
+
  

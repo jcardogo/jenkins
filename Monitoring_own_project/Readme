@@ -1,0 +1,6 @@
+Purpose of this directory is to create my own monitoring service for all the servers I have using most of the tools
+- Docker image of Graphana : https://docs.techdox.nz/grafana/  https://grafana.com
+- Prometheus :  https://prometheus.io https://docs.techdox.nz/prometheus/
+- Node Exporter :  https://docs.techdox.nz/node-exporter/
+
+Youtube guide: https://www.youtube.com/watch?v=yrscZ-kGc_Y

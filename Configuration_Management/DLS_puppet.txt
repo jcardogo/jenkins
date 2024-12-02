@@ -1,0 +1,9 @@
+if $facts['is_virtual]{ #accessing the dictionary of conditions
+    package { 'smartmontools':
+        ensure => purged,
+    }
+} else {
+    package { 'smartmontools':
+        ensure => installed,
+    }
+}

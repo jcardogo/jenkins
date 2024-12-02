@@ -1,0 +1,11 @@
+route:
+  receiver: 'team-a'
+
+receivers:
+  - name: 'team-a'
+    email_configs:
+      - to: 'jacardosogonzalez@gmail.com'
+        from: 'jacardosogonzalez@gmail.com'
+        smarthost: 'smtp.example.com:587'
+        auth_username: 'alertmanager'
+        auth_password: 'password'

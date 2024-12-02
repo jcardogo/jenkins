@@ -1,0 +1,51 @@
+A scalable system is scalable
+Configuration Manager:
+- Manually = Unmanaged configurations
+- What is required for a computer to work properly
+
+Manager COnfiguration:
+- Each server/computer = node
+- Aint to solve manual configuration problems
+- You edit the rules and the confmanager apply it to the servers
+
+Say you found one bug on one computer that could be pressent on multiple machines.
+
+popular systems include:
+ - Puppet: ensure system consistency thourgh its catalog-based aproach
+ - Chef: 
+ - Ansible: Relies on SSH or other API for system management. YAML playbooks 
+ - CFEngine.
+ - Terraform: Provisioning Cloud resources
+ - 
+
+Infrastructure as code paradigm.
+
+PUPPET: 
+2005 
+puppet6, 2018
+Puppet agent: manage the list of rules
+Puppet master: request the list of rules and apply it to the machine
+
+DSL: Domain Specific Language, we can do much more complex operations using Puppet's domain-specific language.
+
+When and how appplicate configurations.
+
+- Variables
+- Conditionals
+- Statements
+
+Facts: characteristics of the system, sent from agent to compare with masters configuration to compare.
+
+Puppet is a declarative code language: in this case we declare the expected result and not the procedure to follow.
+
+Idempotent action can be performed over an over again without changing the system after the first time the action was performed, and with no unintended side effects.
+
+#### Stateless:
+each run is independent, as there is not state kept between runs of the agent.
+Each run is just acting with the facts poked from the agent and compared to the masters configured file
+
+#######Test and Repair
+Each time a puppet action is run, it test the condition and execute required reparation to achieve the expected condition.
+
+####catalog
+is the list of rules that are generated for one specific computer once the server has evaluated all variables, conditions, and functions.

@@ -23,3 +23,5 @@ Containers: are applications that are packaged together with their configuration
 *multi-Clouds: is a mixture of public and/or private Clouds across vendors AWS + AZURE + GCP + OnPrem
 
 
+
+
