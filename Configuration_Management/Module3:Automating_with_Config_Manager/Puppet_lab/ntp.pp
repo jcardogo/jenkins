@@ -14,4 +14,3 @@ class ntp{
         require => File['/etc/ntp.conf'],
     }
 }
-include ntp

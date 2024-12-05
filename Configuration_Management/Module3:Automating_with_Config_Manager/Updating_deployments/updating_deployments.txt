@@ -1,0 +1,20 @@
+#This code is a rspec test to determine whether the gksu package has the intended behavior when the fact is_virtual is set to false. When this is the case, the gksu package should  have the ensure parameter to set latest version.
+
+describe 'gksu', :type => :class do
+    let (:facts) {{ 'is virtual' => 'false'}}
+    it  { should contain_package('gksu').with_ensure('latest')}
+end 
+
+# To apply configurations on a large set of machines
+1) Use the Puppet parser validate, to check that the syntax of the manifest is correct, on top of that we can also run the rules using --noop parameter 
+2) We can check all planed actions to be executed
+3) if we agree to execute the actions we can test on a couple of testing machines and test there before deploying configuration to the whole fleet
+4) Rolling our Changes and Validating Them
+    - Even if we tested on somoe machines it is important to have a safe roll out 
+    - Test environment characteristics
+    - do the rollout on batches, starting to the canaries (controlled machines to identify treads) 
+
+
+# read: https://rspec-puppet.com/tutorial/
+# http://puppet-lint.com/
+

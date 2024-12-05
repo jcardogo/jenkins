@@ -49,3 +49,5 @@ Each time a puppet action is run, it test the condition and execute required rep
 
 ####catalog
 is the list of rules that are generated for one specific computer once the server has evaluated all variables, conditions, and functions.
+
+When we reference a resource relationship from another file, we capitalize the resource name being referenced.

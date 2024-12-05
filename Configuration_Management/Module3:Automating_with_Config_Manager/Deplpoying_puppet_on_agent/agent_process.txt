@@ -1,0 +1,17 @@
+1) Client (Puppet Agent) send "Facts" file to server
+2) Server (Puppet Master) store it on a "Manifest" folder
+3) Server generates the corresponding "catalog" file, and send it back to the Client
+4) Client execute required configurations on itself
+
+HOw Server know that the client is what he is sayin it is?
+
+- Secure Sockets Layer (SSL): same technology used for encrypting transmission over HTTPS.
+    *Each one client and server use this insfrastructure to check other identity, and communication is done over an encrypted channel that uses these identities so it can't be intercepted by other parties.
+    *Each machine involved has a pair of keys related to each other, a private key and a public key. The private key is secret, only known to that specific machine, the public key is shared with other machines involved.
+    *Puppet cames with its own certificate authority, wich can be used to create certificates for each client.
+        + If your company already has a CA that validates the identity of the machine in your fleet, you can integrate it with Puppet, so you only validate the identity once.
+
+ SO always take the time to authenticate your machines
+
+We can create a script to:
+- Copying a unique piede of information into the machine when they get provisioned and then use this pre-shared data as part of the certificate request.
