@@ -35,6 +35,16 @@ How SystemAdministration processes and security is?
 
 How mature is your automation process?
 
+# What are the metrics your team uses to mesure the performance on DevOps team?
+ - Deployment frequency:
+ - Mean time to recovery:
+ - Change failure rate:
+ - Lead time for changes:
+
+# How mature is your automated testing procedure? how autmated is your testing?
+
+
+
 
 
 

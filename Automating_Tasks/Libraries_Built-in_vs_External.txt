@@ -1,0 +1,3 @@
+Python Package Index = https://pypi.org third parti created libraries
+
+For this exercise we will ise Python Imaging Library (PIL). Pillow is a updated fork, that properly supports Python 3. 

@@ -1,0 +1,68 @@
+
+Error responses on web server:
+- the 500 range, like 501 or 503, tells us that something bad happened on the server while generating a response.
+- response codes in the 400 range means there was a client-side problem in the request. 
+- Informational responses (100–199)
+- Successful responses (200–299)
+- Redirects (300–399)
+- Client errors (400–499)
+- Server errors (500–599)
+
+There's a bunch of different monitoring systems out there. 
+Cloud MOnitoring: 
+- AWS Cloudwatch
+- Google Stack Driver
+- Azure Metrics 
+are offered directly by the Cloud providers.
+
+Other systems:
+- Prometheus
+- Datadog 
+- Nagios 
+can be used across vendors.
+
+Getting Alerts when things go wrong.
+
+On linux we can use:
+- cron: which is the tool to schedule periodic jobs.
+if we pair this with a simple python script that checks the service and sends any necessary emails. 
+
+The metrics we collect represent teh state of the service
+Raising an alert signals that something is broken and a human needs to respond. 
+
+If the application is using more than 10 gb of ram.
+
+Alert types:
+- Pagers: Those that need inmediate attention, that comes from a device called pager 
+- Bugs:  the non-urgent alerts are usually configured to create bugs or tickets for an IT specialist to take care of during their workday.
+
+METRICS are the key
+- Service level Objectives (SLO): Pre-established performance goals for a specific service.
+ * Expectations of the service users.
+ * Mesurable: there should be metrics that track how the service is performing.
+ * Expressed as how much time a service will behaves as expected. (90%)
+
+ ur 99% example would be a two 9 service, 99.9% availability is a three 9 service, 99.999% availability is a five 9 service. Five nine services promised a total down time of up to five minutes in a year. Five nines is super high availability, reserved only for the most critical systems. 
+
+SLA (Service Level Agreement):  is a commitment between a provider and a client. 
+
+Error Budgets: 43 minutes down on a month is 99.9% availability our error budget is 43 minutes of down time after that we can assume that a new added feature or modification is causing the failure.
+
+
+READ:
+https://www.datadoghq.com/blog/monitoring-101-collecting-data/
+
+https://www.digitalocean.com/community/tutorials/an-introduction-to-metrics-monitoring-and-alerting
+
+https://en.wikipedia.org/wiki/High_availability
+
+https://landing.google.com/sre/books/
+
+
+Read: 
+https://cloud.google.com/compute/docs/troubleshooting/troubleshooting-instances
+
+https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-troubleshoot.htm
+

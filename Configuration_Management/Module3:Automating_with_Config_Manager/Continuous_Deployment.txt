@@ -1,0 +1,5 @@
+Staging: The process of getting software ready for production
+Production: end users use environment
+
+API keys
+

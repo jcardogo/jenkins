@@ -1,0 +1,14 @@
+#To install k8s on proxmox homelab: https://www.youtube.com/watch?v=lvkpIoySt3U
+
+Kubernetes (k8s)
+- Enterprise Features: Built-in support for complex networking, storage, and cluster configurations.
+- Flexibility: High degree of customization and extensibility.
+- Learning Curve: Steeper, more components to manage.
+- Ecosystem: Larger community, more third-party integrations.
+
+K3s
+- Limited Features: Lacks some advantanced features of Kubernetes, but enough for small-to-medium deployments. 
+- Speed: Faster start-up and operation times.
+- Lightweight: Minimal resource footprint, good for edge or IoT devices.
+
+

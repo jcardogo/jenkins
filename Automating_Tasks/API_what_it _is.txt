@@ -1,0 +1,3 @@
++ Application Programing Interfaces (APIs) : Provides a stable interface to write your code with, 
+accepting the same parameters and returning the same results.
+

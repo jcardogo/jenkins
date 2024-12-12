@@ -1,0 +1,42 @@
+Value stream mapping:
+Is a technique used to analyze, design, and manage the flow of materials and information required to bring a product to a customer. 
+Also known as a material and information flow map, VMS can help you identify bottlenecks in your value stream, inefficiencies in your
+process, and current areas of improvement.
+It can also help to reduce the number of steps in your process and help you visualize where handsoff occur. This way, you can identify where wait time 
+is preventing work from moving through your system.
+
+A significant goal of VMS is to reduce waste.
+
+Another goal of a VSM is to incerease the efficiency of your processes. To do this, create a detailed map of all the necessary steps involved in your 
+business process or a flowchart. Consider the example below:
+1) Define the problem: What are you trying to solve or achieve?
+2) List the steps you current process: For each step, make sure to note the amount of time needed, any imputs and outputs, and resources
+both people and materials, necessary to complete each step.
+3) Create and organize the map using the above data: Your goal 
+4) FInd areas that can be improved:
+5) Update tha map woth your findings 
+6) Implement the new process  
+
+####GItHub and delivery
+-Webooks 
+
+####GITHUB ACTIONS
+is a feature of GitHub that allows you to run tasks whenever certain events occur in your code repository. With GitHub Actions, you are able to trigger any part of a CI/CD pipeline off any webhook on GitHub. 
+
+To get started with GitHub Actions, go to the Actions tab in the GitHub repository. When opening the tab for the first time, you’ll find a description of GitHub Actions and some suggested workflows for your repository. These workflows build the code in your repository and run your tests either on GitHub-hosted virtual machines or on your own machines. You’ll receive the results of the tests in the pull request.
+
+GitHub Actions has more than 13,000 pre-written and tested CI/CD workflows. If you would like to write your own workflows or customize an existing one, you can do it using YAML files. 
+
+Because GitHub Actions is a general-purpose engine that runs tasks in response to events in the repository, you can use it for more than just CI/CD pipelines. Some examples:
+
+Running a nightly build in the master branch for testing.
+
+Cleaning up old issues or bug reports.
+
+Creating a full-fledged bot that responds to comments or commands on a PR or issue. (“Issues” are like bug reports or support tickets.)
+
+With a blue-green deployment, you can use automated monitoring to observe any differences between the blue and green populations. If there is a problem, you can instantly shut off traffic to the blue or green side and direct all user traffic to the other side until the problem is fixed.
+
+Key takeaways
+CD must be paired with CI and automated testing. The CD practices of using feature flags, incremental rollout, canary releases, and blue-green deployments will minimize problems that often are caused by human errors.
+

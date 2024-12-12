@@ -1,0 +1,25 @@
+NALSD, also known as non-abstract large system design. : to assess, design, and evaluate large systems.
+- Practical
+- Concrete
+
+Combines:
++ Capacity planning
++ Component isolation
++ Graceful system degradation
+
+High Available Production Systems
+
+Phase1: Technical design
+- Is it possible? Will the design even work?
+- Can we do better? Can we make it faster, simpler, or cheaper?
+
+Phase2: Scaling up ::: What if you suddenly add a million users to the system? How will the system be able to accommodate a random increase in users?
+- Is it feasible? Will it work at scale? Is it cost-effective?
+- Is ti resilient? What happens if the database goes down?
+- Can we do better? Are there changes or additions that we need to make?
+
+"do one thing and do it well" philosophy
+
+Book: https://static.googleusercontent.com/media/sre.google/en//static/pdf/nalsd-workbook-letter.pdf
+
+

@@ -1,0 +1,31 @@
+SAP HANA, an in-memory database that is orders of magnitude faster than any traditional database that you can buy that runs on a disk.
+H: High performance 
+AN: Analytical
+A: Appliance 
+
+NetWeaver stack:
+It's an application platform where you can deploy application up to that talk back and foth with this HANA database.
+
+Source od data:
+- Business
+- UX
+- Mobile
+- Machine Learning
+- IoT sensors
+
+SAP products:
+
+*S4/HANA
+SAP ERP: Enterprise 
+SAP CRM: Customer relationship Management
+SAP SRM: 
+
+ANALYTICS
+*Tactical Level 
+- Business objects
+*Enterprise Level
+- Machine Learning/ Leonardo
+- WATSON
+*Estrategic Level
+- DIGITAL BOARDROOM
+

@@ -1,0 +1,87 @@
+DevOps is a way of working that combines software development, Dev, and IT operations, Ops, to shorten the system's development lifecycle and provide continuous delivery with high software quality. DevOps allows us to collaboratively create software that's robust, deliver it at high velocity, and support it in an integrated way. 
+
+Source code repositories, such as GitHub or Bitbucket
+
+CI/CD tools, such as Github Actions, Jenkins, and Google Cloud Deploy
+
+Infrastructure as Code (IaC) tools, such as Terraform or Ansible
+
+Container management tools, such as Docker or Kubernetes
+
+Security scanning tools, such as Snyk or SonarQube
+
+Production monitoring tools, such as DataDog or AppDynamics
+
+*DevOps and covered that it's a set of practices, philosophies, and tools that informs the software development lifecycle after a programmer writes the initial code. DevOps emphasizes collaboration between operations and development teams. 
+
+
+1) In step one, the programmer completes the software on a local machine. 
+2) In step two, all of the sensitive information has to be removed. Each local machine has its own security and passwords, API keys, and other sensitive information stored in plain text within source code. It's best practice to never include these in the first place, but always double-check that these items have been removed before you create a container. Cloud providers offer secret services that allow you to call any necessary sensitive information as a variable when the application runs on the cloud. 
+Step two is either done by the in-house programmer or a staff engineer after they receive a freelance programmer's code. 
+3) For step three, the DevOps team receives the container and artifacts. 
+4) Then, step four deploys them to the cloud using the appropriate security credentials. 
+
+
+####TESTING:
+
+- Unit testing: 
+You use unit testing to test an individual unit within your code—a unit can be a function, module, or set of processes. 
+Unit testing checks that everything is working as expected. 
+
+- Integration testing: 
+Integration testing is part of both continuous delivery and continuous deployment. It allows you to automatically test each 
+change to your code when you commit or merge them to your source code repository. The testing  checks for errors and security
+issues as they arise, again preventing you from having to deal with larger, more difficult, and/or expensive issues later in the process. 
+
+
+- System testing: 
+System testing does exactly what it sounds like: It simulates active users and runs on the entire system to test for performance.
+When testing the entire system, testing for performance can include testing how your program, software, or application handles 
+high loads or stress, changes in the configuration; and system  security. You can also utilize end-to-end testing, which tests 
+the functionality and performance of your entire application from start to finish by simulating a real user scenario.
+
+Testing frameworks and tools
+There are many testing frameworks and tools you can use for automated testing, such as 
+- JUnit:
+JUnit is an open-source unit testing framework for the Java programming language and can help you with your unit testing. 
+With JUnit, you can write and execute automated tests and develop reliable, bug-free code. There are similar libraries 
+for other languages such as PyUnit for Python and NUnit for C#.
+ 
+- Selenium:
+Selenium is an open-source, automated testing suite of tools for web application developers. Each tool can be used for 
+different testing needs.
+ 
+- Cypress: 
+Cypress is a JavaScript-based testing tool that can automate end-to-end tests. It simulates how users would interact with 
+your web applications. Often used for front-end development of web-based applications, these kinds of tests will help to 
+ensure that your tests and the users’ experiences are the same. 
+
+- Postman
+Postman can be used to automate unit tests, function tests, integration tests, end-to-end tests, regression tests, and 
+more in your CI/CD pipeline.  
+
+############Key benefits of continuous improvement include:
+
+Increased productivity and efficiency
+
+Improved quality of products and services
+
+Reduced waste
+
+Competitive products and services
+
+Increased innovation
+
+Increased employee engagement 
+
+Reduced employee turnover
+
+#########Popular metrics in DevOps that you can use to measure performance include:
+
+- Lead time for changes: This is the length of time it takes for a code change to be committed to a branch and be in a deployable state.
+
+- Change failure rate: This is the percentage of code changes that lead to failures and require fixing after they reach production or are released to end-users.
+
+- Deployment frequency: This measures the frequency of how often new code is deployed into production.
+
+- Mean time to recovery: This measures how long it takes to recover from a partial service interruption or total failure of your product or system. 

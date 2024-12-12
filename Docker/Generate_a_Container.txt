@@ -1,0 +1,22 @@
+Page: https://docs.docker.com/get-started/workshop/02_our_app/
+1) Decide which base image to use. -Base Image provides all the Operative System files.
+Most popular: 
+- https://hub.docker.com/_/debian
+- https://hub.docker.com/_/ubuntu
+- https://hub.docker.com/_/alpine
+- https://hub.docker.com/_/python/
+2) Create a Dockerfile in your project directory.
+3) Create a requirements.txt file
+4) With the required files on the directory you can now Build your Docker image by docker build command.
+- docker build -t myname/myapp:1.0 
+to upload the image to a registry: 
+- -push #But this is not recommended
+5) Start a Container:
+once you have build one image you can startit by:
+- docker run -p 4000:4000 myname/myapp:1.0
+5) List all images on your machine
+- docker image ls -a 
+6) Remove unused images:
+- docker image prune
+7) Push images to your repository like DockerHub:
+- docker image push myname/myapp:1.0 
