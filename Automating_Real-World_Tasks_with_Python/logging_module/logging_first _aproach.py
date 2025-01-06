@@ -18,4 +18,13 @@ except IOError as ex:
 else:
   #If there was not exception close the file.
   f.close()
+  """
+  In stead of writing this:
+  if instance(user, dict) and "first_name" in user:
+    first_name = user["first_name"]
+  """
+try:
+  first_name = user["first_name"]
+except KeyError:
+  print("User does not have a first_name field")
   
