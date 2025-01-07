@@ -10,4 +10,13 @@ message["To"] = recipient
 
 print(message)
 
-message["Subject"] = "Greetings from {}"
+message["Subject"] = "Greetings from {} to {}!".format(sender, recipient)
+print(message)
+
+body = """Hey there!
+
+Im learning to send emails using python!"""
+
+message.set_content(body)
+
+print(message)
