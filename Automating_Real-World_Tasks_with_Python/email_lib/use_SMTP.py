@@ -23,7 +23,7 @@ message.set_content(body)
 
 import smtplib
 
-mail_server= smtplib.SMTP("smtp.gmail.com")
+mail_server= smtplib.SMTP("smtp.gmail.com", 587)
 mail_server.set_debuglevel(1)
 
 import getpass
