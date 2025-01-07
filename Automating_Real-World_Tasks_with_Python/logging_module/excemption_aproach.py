@@ -26,11 +26,17 @@ x = "hello"
 if not isinstance(x, int):
   raise TypeError("Only integers are allowed")
 """
-
 def start_server(port):
-  if not isinstance(x, int):
+  if not isinstance(port, int):
     raise TypeError("Port number must be an integer")
   elif port < 1024 or port > 65535:
     raise ValueError ("Port number is invalid")
-port = 1023
+x = input("Enter port number: ")
+try:
+  port = int(x)
+  print("You entered: ", port)
+  print(type(port))
+except ValueError:
+  print("Invalid input. please enter a valid integer.")
 
+start_server(port)
