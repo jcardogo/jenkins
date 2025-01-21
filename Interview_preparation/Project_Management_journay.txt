@@ -1,0 +1,33 @@
+My Project Management journey started in 2010 more than 14 years ago:
+- first I worked for a Construction company (MASERCO) where I discover the project management metodologies,
+and how temporary well focused efforts can deliver valuable outputs. [3 years] 2010
+- Then I had an internship experience on Colombias greates airline AVIANCA, when I learned about data based oriented
+decission making and taylormade software solution for business [1 year] 2013
+- Then I worked for a Business consultant company PRASCALI as a cosultant for multiple projects on Risk Management
+for Food Manufacturers [1 year] 2014
+- Then I worked for a leading Telecomunication Infrastructure company SADELEC as a Project Controller 
+where I worked on 50+ projects for construcction sites arround the country, managing butget, resources and reporting 
+progam status to C level. [1 year] 2015
+- For ministry of commerce I lead my firs project, was a public price controll execution field deployment all over
+the country with a 10 member team [1 year]2016
+- For the Central Bank of Colombia, I had my first Project Manager Role on IT, I lead 35 people team, on client side as 
+business owners, for a 10+ years 20 mill usd project intending to create a completely new software solution for Public 
+Debt transaction settlement. [5 years]
+- I moved to Canada to explore in depth the technical details of project managemet and landed on DevOps role possition 
+on a IoT company, working on a Software Product Developement, leading a team of 3 DevOps engineers part of a 40 people 
+diverse team SW, FW, HW, Client. [3 years]
+
+Project Management Assets:
+- Effective Communication with team and stakeholders
+- Client Oriented mindset
+- Project methodologies experience:
+  + Waterfall
+  + Scrum [teamwork, iterative progress, MVP]
+  + Kanban [Visualising work in progress] - Jira Work Items
+  + Lean [maximize value, minimize wate]
+- Progress Tracking and status report (regular updating status for stakeholders) 
+- Risk Management [Fan Chart to graphically show the forecasted expected variability on the project]
+- Project Budget management
+- Project Schedule management 
+- Change Management Expert [ADKAR]
+
