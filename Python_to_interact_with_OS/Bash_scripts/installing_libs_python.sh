@@ -1,0 +1,1 @@
+sudo apt install python3-psutil #just replace the intended library after - 

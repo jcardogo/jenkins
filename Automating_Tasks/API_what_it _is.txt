@@ -1,3 +1,49 @@
 + Application Programing Interfaces (APIs) : Provides a stable interface to write your code with, 
 accepting the same parameters and returning the same results.
 
+REST = Representational State Transfer.
+
+RESTful APIs: works with associating methods (Functions) with resources. Some of the most commonly used are:
+- GET: request a representation of the specified resource. Request using GET should only retrieve data.
+- HEAD: asks for a response identical to a GET request, but without the response body.
+- POST: submits an entity to the especified resource, often causing a change in state or side effects on the server.
+- PUT: replaces all current representations of the target resource with request payload.
+
+requests: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+response: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+json (JavaScript Object Notation)
+JSON is a data-interchange format used in RESTful APIs to facilitate communication between clients and servers.
+In RESTful services, JSON serves as the standard payload format for transmitting data. When a client makes a request, 
+the server processes it and sends back a response, often in JSON format. This structured format allows for easy parsing,
+ensuring both the server and client can interpret the data consistently. With its key-value pairs, JSON is both human 
+readable and machine friendly, making it a popular choice for web-based APIs.
+
+API authentication:
+- JWT (Javascript Web Token)
+- Third-party authentication provider.
+
+HATEOAS (Hypermedia as the Engine of Application State)
+
+REST APIs with python: https://auth0.com/blog/developing-restful-apis-with-python-and-flask/
+
+Using REST APIs:
+1) Identify the API endpoint:
+    Determine the URI (Uniform Resource Identifier). THe endpoint is the URL that you will send yout HTTP reuqest to.
+2) Select the appropiate HTTP method:
+3) Set up request headers.
+    Include any necessary request headers in your HTTP request. Common headers include authentication tokens (e.g., API keys 
+    or OAuth tokens), content type, and accept headers (indicating the desired response format, such as JSON or XML).
+4) Prepare the request body:
+    For HTTP methods like POST and PUT, you may need to prepare a request body containing data to be sent to the server. 
+    The format of the request body depends on the API's documentation.
+5) Send the HTTP request:
+    Use a programming language or tool (e.g., Python's requests library, JavaScript's Fetch API, or specialized API 
+    client libraries) to send the HTTP request to the API endpoint. Include the chosen HTTP method, headers, and request body as appropriate.
+6) REceive the HTTP response:
+7) Handle the response:
+8) Implement pagination and filtering (optional):
+9) Authentication and authorization:
+10) Error handling:
+11) Rate limiting (if applicable):
+12) Repeat as needed:
