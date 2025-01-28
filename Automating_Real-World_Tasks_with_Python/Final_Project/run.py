@@ -35,7 +35,7 @@ for fruit_number in range (1, max_fruit_number+1):
         fruits['image_name'] = img_path + f'{fruit_number:03d}' + '.jpeg' 
         index = 0
         print (fruits)
-        #response = requests.post("http://<External_IP>/fruits", json=fruits)
+        #response = requests.post("http://35.185.213.128/fruits/", json=fruits)
         fruits.clear()
     #Increasing the number on fruit 
     fruit_number =+ 1

@@ -1,4 +1,4 @@
-#!/usr/bin/env Python3
+#!/usr/bin/env python3
 
 import shutil
 import psutil
@@ -10,7 +10,7 @@ sender = "automation@example.com"
 reciever = "<USERNAME>@example.com".format(os.environ.get('USER'))
 body = "Please check your system and resolve the issue as soon as possible."
 
-# Checks sisk usage and sends email if available space < 20%
+# Checks disk usage and sends email if available space < 20%
 du = shutil.disk_usage("/")
 du_prsnt = du.free/du.total *100
 if du_prsnt < 20:
