@@ -1,3 +1,5 @@
+#! /bin/bash
+
 #Confirm git is installed
 git --version
 #Create a new directory por your project
@@ -14,3 +16,4 @@ echo "# My project" >> README.md #Populate README.md file with initial line
 git add . #Add all files to the repository
 git commit -m "Initial commit" #Commit the added files including the commit comment
 git push origin main 
+git fetch
