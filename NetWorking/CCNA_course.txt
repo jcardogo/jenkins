@@ -1,0 +1,43 @@
+Course video list
+https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P
+
+Cisco Certified Network Associate (CCNA)
+
+Packet Tracer 8.2.2 
+
+Source (Backwarding) + Destination (Forwarding) = Connection
+
+
+Layer1: node: PC or device connected to te network
+Layer2: Switch: use MAC address to identifie the node (CAM -COntent Address Memory- table of connected devices)
+Layer3: Router: Use IP to manage requests 
+    - routung configuration commands:
+        #
+        #
+        #   
+
+        # show ip route
+
+TCP/IP (Transmission Control Protocol/Internet Protocol)
+ - layer5-7: Application ()
+ - layer4: Transport (TCP/UDP)
+ - layer3: Network (IP address + Routers)
+ - layer2: Data Link
+ - layer1: Physical (Electricity and cables)
+OSI (Open System Interconnection - APSTNDP)
+ - layer7: Application (https:// to access applocation layer) ------------------------------DATA
+    - layer6: Presentation ()
+    - layer5: Session ()
+ - layer4: Transport (TCP/UDP: TCP=Reliable, UDP=Faster, ports: 80-http, 443-https) --------- L4Heade(DATA)
+ - layer3: Network (IP address + Routers) --------------------------------------------------- L3Header(L4Heade(DATA)) = Packet
+ - layer2: Data Link (Switch operating MAC addresses) Datalink layer ------------------------ L2Header(L3Header(L4Heade(DATA))) = Frame
+ - layer1: Physical (Electricity and cables, repeaters and hubs)  send the frame to corresponding port's MAC address.
+
+ Trafic adat types:
+    WEB:
+    - HTTP 
+    - HTTPS
+    Other:
+    - ARP (discover devices MAC address)
+    - DNS qwery (TO discover IP )
+

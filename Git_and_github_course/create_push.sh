@@ -5,7 +5,7 @@ mkdir /home/acardogo/Documents/projects/AWS/ #replace with path to your project
 cd /home/acardogo/Documents/projects/AWS/ #replace with path to your project
 git init #Initialize the project creating a .git file on the directory
 #Update the URL: to incluide your token
-export GITHUB_TOKEN="11ARKP55Y0zQ3UaSXx4KtE_F0iZXJOicLtjvM9XuuQPuel8Skrz3d2AMhtbv0dPS3hMOY4ZHG5nPKiOSJu" #Replace with the current GitHub PAT token
+#export GITHUB_TOKEN="11ARKP55Y0zQ3UaSXx4KtE_F0iZXJOicLtjvM9XuuQPuel8Skrz3d2AMhtbv0dPS3hMOY4ZHG5nPKiOSJu" #Replace with the current GitHub PAT token
 git remote add origin https://jcardogo:$GITHUB_TOKEN@github.com/jcardogo/AWS.git
 git remote set-url origin https://jcardogo:$GITHUB_TOKEN@github.com/jcardogo/AWS.git
 #Manipulate files
