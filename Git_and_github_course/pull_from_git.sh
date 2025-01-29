@@ -6,3 +6,4 @@ cd /home/acardogo/Documents/GitHub
 git clone https://jcardogo:$GITHUB_TOKEN@github.com/jcardogo/.git
 #git pull https://acardogo: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@github.com/jcardogo/DevOps.git main
 #git status
+l

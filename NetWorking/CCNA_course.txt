@@ -41,3 +41,14 @@ OSI (Open System Interconnection - APSTNDP)
     - ARP (discover devices MAC address)
     - DNS qwery (TO discover IP )
 
+Ecapsulation ----->>>> Deencapsulation
+
+
+#Accesing youtube
+1) tipe https://youtube.com [DATA] ------------------------------------------------------------------------------- Application layer  (L7)
+2) -Data Format(.html/.jpg/.pdf) and -Encryption (SSL) [Formated_and_Encrypted[DATA]] ---------------------------- Presentation Layer (L6)
+3) stablish connection protocols sessions (L2TP, RTCP, H.245, SOCKS) [PROTOCOL[Formated_and_Encrypted[DATA]]]----- Session Layer      (L5)
+4) Select the transport UDP(Fast) TCP(Reliable-3WayHandshake) [TCP/443][PROTOCOL[Formated_and_Encrypted[DATA]]]-- Transport Layer    (L4)
+5) 
+
+Datacenters design Spine/leaf switches (clos) maintain 2 hops distance between servers - 
