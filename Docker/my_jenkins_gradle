@@ -1,0 +1,19 @@
+FROM jenkins/jenkins:latest
+
+# Install Gradle
+RUN apt-get update && apt-get install -y gradle
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the project files to /app
+COPY . /app
+
+# Build the project using Gradle
+RUN gradle build
+
+# Expose the port for the application
+EXPOSE 8080
+
+# Run the application when the container starts
+CMD ["jenkins.sh"]

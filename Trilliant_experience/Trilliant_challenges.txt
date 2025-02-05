@@ -11,8 +11,8 @@
             + Street Ligth Controllers
             + IOT (Internet of things devices) open to ani DLMS 
     *3) Messaging system (ACTIVEMQ)
-    *4) Shared Registry Service, certificates manager for devices authentication 
-    *5) Key Manager Service (KMS), credentials authentication service for devices
+    *4) Shared Registry Service, certificates manager for devices [NIC] authentication 
+    *5) Key Manager Service (KMS), credentials authentication service for devices [MAC]
     *6) Database schema for each service (SRS, Phantom, KMS, UHES) : 
         - mysql on-prem
         - Oracle DB 
@@ -29,9 +29,9 @@
     * AWS
     * AZURE
     * GCP
-    * Private Cloud
+    * Private Cloud [Hypervisor]
 - use of Java8 and Java 11 on more than 14 years old software 
-    *
+    * 
 - 15 countries deployment 
 - Mutibranch Integration Pipelines (7 different pipelines attending each customer group)
 - Team work:
