@@ -8,8 +8,6 @@ docker exec -it <container-id> /bin/bash #access docker container shell
 docker contaner ls #list all containers runing 
 #deploy jenkins/jenkins image
 docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 --restart=on-failure jenkins/jenkins:lts-jdk17
-#deploy a tomcat server 
-
 #Create a network
 docker network create jenkins
 
@@ -44,4 +42,9 @@ docker run \
     --volume jenkins-docker-certs:/certs/client:ro \
     myjenkins-blueocean:0.0.1
 
-
+#Deploy a nginx container to host a website
+docker pull nginx
+docker run -d -p 8083:80  -v /home/acardogo/Documents/GitHub/Website-Templates/reveal/:/usr/share/nginx/html nginx
+#Deploy a apache httpd container to host a website 
+docker pull httpd
+docker run -d -p 8082:80  -v /home/acardogo/Documents/GitHub/Website-Templates/speed-hosting-bootstrap-free-html5-template/:/usr/local/apache2/htdocs/ httpd
