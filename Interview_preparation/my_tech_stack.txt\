@@ -1,0 +1,23 @@
+Programming Language = Python 
+Scripting = Bash 
+Operating Systems Linux (Ubuntu/rocky/centos/RHEL)
+Terminal Knowledge = Process Monitoring + Performance Monitoring + Networking  Tools + Text Manipulation
+VCS (Version Controll System) =  Git
+VCS Hosting = Github, Gitlab
+Containers = Docker
+Webserver = Nginx + Tomcat (Forward Proxy + Reverse Proxy + Caching Server + Firewall + Load Balancer)
+Networking & Protocols = SSH + HTTP/HTTPS + DNS + SSL/TSL + SMTP + IMAP
+Cloud Providers = AWS, AZURE, GCP 
+Serverless = AWS Lambda
+Provissioning = Terraform + CloudFormation
+Configuration Management = Ansible + Chef + Puppet
+CI/CD Tools = Jenkins + Githubactions + GitlabCI
+Secret Management = Vault
+Infrastructure Monitoring = Grafana + Prometheus
+Log Management = Loki
+Container Orchestration = Kubernetes
+Application Monitoring = Prometheus
+Artifact Management = Artifactory
+GitOps = ArgoCD
+Service mesh = Isitio
+Cloud Design Patterns = Management and monitoring 

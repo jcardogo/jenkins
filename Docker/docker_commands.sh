@@ -7,9 +7,11 @@ docker ps #List all docker processes
 docker exec -it <container-id> /bin/bash #access docker container shell
 docker contaner ls #list all containers runing 
 #deploy jenkins/jenkins image
-docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 --restart=on-failure jenkins/jenkins:lts-jdk17
+udo docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 --restart=on-failure jenkins/jenkins
 #Create a network
 docker network create jenkins
+sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <<Container ID>> #Fetch IP address of a container
+
 
 #To run docker commands inside Jenkins node:
 #1)DOwnload and run docker:dind
