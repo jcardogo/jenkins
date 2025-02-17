@@ -1,39 +1,43 @@
 #####Example questions to ask your interviewer
-How do you evaluate success in this role?
+- How do you evaluate success in this role?
 This question helps you better understand what skills or qualities make someone successful in the role. If the interviewer mentions skills or qualities you have, you can then discuss how you applied them in your previous experience.
 
-Can you describe the typical day of someone in this role?
+- Can you describe the typical day of someone in this role?
 It’s important to know the day-to-day activities of the position. Does this match with the type of role you’re interested in? If it doesn’t, the role may not be a fit for you. This question also confirms that the tasks for the role match the job description.
 
-How would you describe the company’s culture?
+- How would you describe the company’s culture?
 A company culture is the attitudes and behaviors of the company and its employees. Asking this question helps you better understand if the company’s culture is a fit for you. For example, if you’d like to work for a company that supports creativity and encourages new ideas, look for that type of information when someone describes the culture.
 
-What do you like about working here?
+- What do you like about working here?
 Similar to the question about culture, this question provides the positive qualities of a workplace. Ensure these qualities match with what you’re interested in for a work environment.
 
-Is there any training for the role and how is the training delivered?
+- Is there any training for the role and how is the training delivered?
 If you’re interested in receiving training for a role, consider asking this question. Additionally, you may want to ask how the training will be delivered, such as digitally, in-person, shadowing a current employee, or another method. Shadowing is when you closely observe another employee perform the role.
 
-Do you have any questions or hesitations about my qualifications or experience?
+- Do you have any questions or hesitations about my qualifications or experience?
 If you ask this question at the end of an interview, it gives you a chance to address any concerns the interviewer may have about your work background. Sometimes the interviewer is interested in a particular experience that you may in fact have, but didn't include on your resume. This is the perfect question to address that discrepancy.
 
 Key takeaways
 When interviewing, you should ask questions to learn more about the organization and show your interest in the role. When doing pre-interview research, write down any questions you may have for the organization or the role. It’s a best practice to have at least four questions prepared before the interview. If there is time available and the question seems appropriate, ask it!
 
 #my own questions
-- How do you mesure the capacity of the system implemented for the service? querys per second 
+- About the pace how long are your sprints (how often service is released)
+- Do you have any questions or hesitations about my qualifications or experience?
+- How mature is your automation process? Testing 
+- How is the workload stack composed on the services 
+- How do you mesure the capacity of the system implemented for the service? on querys per second 
 - What is the capacity of it? 10.000 queries per second
 - How many times have you upscaling or downscaling on the last year/quarter?
+- How do you evaluate success in this role?
+- Can you describe the typical day of someone in this role?
+- What do you like about working here?
+- Is there any training for the role and how is the training delivered?
 
-#How do you manage the storage?
-
-#Are your servers ling lived or shortlived
-
-#How is your infrastructure setted up?
-
-How SystemAdministration processes and security is?
-
-How mature is your automation process?
+Tech questions
+- How do you manage the storage?
+- Are your servers longlived or shortlived
+- How is your infrastructure setted up?
+- How SystemAdministration processes and security is?
 
 # What are the metrics your team uses to mesure the performance on DevOps team?
  - Deployment frequency:
