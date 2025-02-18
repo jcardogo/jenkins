@@ -1,0 +1,4 @@
+- Trilliant : multibranch-pipelines, by client request we had to add features to our main branch to work on hot fixes or tailored solution and we had to move to a multipileline aproach. 7 simultaneusly working branches and the challenge of merging them in the future
+- Trilliant: Multibranch using multi java versions among the application stack ,pving from java 8 to java 11 a 10 years set of services is challenging
+- Trilliant: Move from on-premises to cloud exposes company credentials of AWS on code repository and cause a important security thead
+- Trilliant
