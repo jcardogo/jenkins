@@ -15,11 +15,11 @@ pipeline {
             }
         }
 
-        // stage ('Deploy Website') {
+        // stage ('Deploy Website - bash script') {
         //    agent {label 'local'}
         //    steps {
         //        script {
-        //            sh 'npm install'
+        //            sh './docker_webserver_no_context.sh'
         //        }
         //    }
         // }
