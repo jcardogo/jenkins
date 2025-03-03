@@ -9,8 +9,8 @@ pipeline {
         stage('Clone Repository') {
             agent { label 'local' }
             steps {
-                withCredentials([string(credentialsId: 'PAT', variable: 'PAT')]) {
-                    git url: "https://jcardogo:${PAT}@${params.REPO_URL}"
+                withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
+                    git url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
                 }
             }
         }
