@@ -13,14 +13,22 @@ pipeline {
         stage ('Clone Repository') {
             agent {label 'local'}
             steps {
+                echo 'Starting Checkout stage'
                 try {
                     withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_TOKEN')]) {
-                        git url : "https://jcardogo:${GITHUB_TOKEN}@${params.REPO_URL}"
+                        git url: "https://jcardogo:${GITHUB_TOKEN}@${params.REPO_URL}"
                     }
                 } catch (e) {
                     error "Failed to clone repository: ${e.message}"
                 }
-                // echo 'Starting Checkout stage'
+
+                // try {
+                //     withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_TOKEN')]) {
+                //         git url : "https://jcardogo:${GITHUB_TOKEN}@${params.REPO_URL}"
+                //     }
+                // } catch (e) {
+                //     error "Failed to clone repository: ${e.message}"
+                // }
                 // git clone ${env.GITHUB_REPO_URL}
             }
         }
