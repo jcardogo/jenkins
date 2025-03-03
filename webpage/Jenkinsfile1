@@ -10,7 +10,7 @@ pipeline {
             agent { label 'local' }
             steps {
                 withCredentials([string(credentialsId: 'PAT', variable: 'PAT')]) {
-                    git url: "https://${PAT}@${params.REPO_URL}"
+                    git url: "https://jcardogo:${PAT}@${params.REPO_URL}"
                 }
             }
         }
