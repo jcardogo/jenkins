@@ -35,7 +35,7 @@ pipeline {
                         COPY $WORKSPACE/website_content /usr/share/nginx/html/
                         EOF
                         docker run -d -p 8086:80 --name my-nginx-container my-nginx-image
-                    ''''
+                    '''
                 }
             }   
         }
