@@ -24,20 +24,5 @@ pipeline {
                 }
             }
         }
-
-        stage('Dockerize Nginx'){
-            agent { label 'local' }
-            steps {
-                script {
-                    sh '''
-                        docker build -t my-ngonx-image - <<EOF
-                        FROM nginx:alpine
-                        COPY $WORKSPACE/website_content /usr/share/nginx/html/
-                        EOF
-                        docker run -d -p 8086:80 --name my-nginx-container my-nginx-image
-                    ''''
-                }
-            }   
-        }
     }
 }
