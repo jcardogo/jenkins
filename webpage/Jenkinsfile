@@ -1,45 +1,43 @@
 pipeline {
-    agent none 
-
-    // environment {
-    //     GIT_REPO_URL = 'https://jcardogo:$GITHUB_PAT@github.com/jcardogo/AlejandroCardoso_website.git'
-    // }
+    agent none
 
     parameters {
         string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
     }
 
     stages {
-        stage ('Clone Repository') {
-            agent {label 'local'}
+        stage('Create Directory'){
+            agent { label 'local' }
             steps {
-                echo 'Starting Checkout stage'
-                try {
-                    withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_TOKEN')]) {
-                        git url: "https://jcardogo:${GITHUB_TOKEN}@${params.REPO_URL}"
-                    }
-                } catch (e) {
-                    error "Failed to clone repository: ${e.message}"
+                script {
+                    sh 'mkdir -p $WORKSPACE/website_content'
                 }
-
-                // try {
-                //     withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_TOKEN')]) {
-                //         git url : "https://jcardogo:${GITHUB_TOKEN}@${params.REPO_URL}"
-                //     }
-                // } catch (e) {
-                //     error "Failed to clone repository: ${e.message}"
-                // }
-                // git clone ${env.GITHUB_REPO_URL}
             }
         }
 
-        // stage ('Deploy Website - bash script') {
-        //    agent {label 'local'}
-        //    steps {
-        //        script {
-        //            sh './docker_webserver_no_context.sh'
-        //        }
-        //    }
-        // }
+
+        stage('Clone Repository') {
+            agent { label 'local' }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
+                    git url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
+                }
+            }
+        }
+
+        stage('Dockerize Nginx'){
+            agent { label 'local' }
+            steps {
+                script {
+                    sh '''
+                        docker build -t my-ngonx-image - <<EOF
+                        FROM nginx:alpine
+                        COPY $WORKSPACE/website_content /usr/share/nginx/html/
+                        EOF
+                        docker run -d -p 8086:80 --name my-nginx-container my-nginx-image
+                    ''''
+                }
+            }   
+        }
     }
 }
