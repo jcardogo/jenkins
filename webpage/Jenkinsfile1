@@ -9,13 +9,9 @@ pipeline {
         stage('Clone Repository') {
             agent { label 'local' }
             steps {
-                // try {
-                withCredentials([string(credentialsId: 'PAT', variable: 'Github_PAT')]) {
-                    git url: "https://${Github_PAT}@${params.REPO_URL}"
+                withCredentials([string(credentialsId: 'PAT', variable: 'PAT')]) {
+                    git url: "https://${PAT}@${params.REPO_URL}"
                 }
-                // } catch (e) {
-                //     error "Failed to clone repository: ${e.message}"
-                // }
             }
         }
     }
