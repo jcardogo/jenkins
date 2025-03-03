@@ -19,9 +19,11 @@ pipeline {
         stage('Clone Repository') {
             agent { label 'local' }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
-                    git url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
-                }
+                dir ('website_content') {
+                    withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
+                        git url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
+                    }
+                }               
             }
         }
     }
