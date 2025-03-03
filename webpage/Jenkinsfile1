@@ -11,7 +11,7 @@ pipeline {
             steps {
                 // try {
                 withCredentials([string(credentialsId: 'PAT', variable: 'Github_PAT')]) {
-                    git url: "https://jcardogo:${Github_PAT}@${params.REPO_URL}"
+                    git url: "https://${Github_PAT}@${params.REPO_URL}"
                 }
                 // } catch (e) {
                 //     error "Failed to clone repository: ${e.message}"
