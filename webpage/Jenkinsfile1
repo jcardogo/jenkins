@@ -10,7 +10,7 @@ pipeline {
             agent { label 'local' }
             steps {
                 // try {
-                withCredentials([string(credentialsId: 'Github_PAT', variable: 'Github_PAT')]) {
+                withCredentials([string(credentialsId: 'PAT', variable: 'Github_PAT')]) {
                     git url: "https://jcardogo:${Github_PAT}@${params.REPO_URL}"
                 }
                 // } catch (e) {
