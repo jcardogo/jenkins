@@ -1,16 +1,27 @@
 pipeline {
     agent none 
 
-    environment {
-        GIT_REPO_URL = 'https://jcardogo:$GITHUB_PAT@github.com/jcardogo/AlejandroCardoso_website.git'
+    // environment {
+    //     GIT_REPO_URL = 'https://jcardogo:$GITHUB_PAT@github.com/jcardogo/AlejandroCardoso_website.git'
+    // }
+
+    paramaters {
+        strung(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
     }
 
     stages {
         stage ('Clone Repository') {
             agent {label 'local'}
             steps {
-                echo 'Starting Checkout stage'
-                git clone ${env.GITHUB_REPO_URL}
+                try {
+                    withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_TOKEN')]) {
+                        git url : "https://jcardogo:${GITHUB_TOKEN}@${params.REPO_URL}"
+                    }
+                } catch (e) {
+                    error "Failed to clone repository: ${e.message}"
+                }
+                // echo 'Starting Checkout stage'
+                // git clone ${env.GITHUB_REPO_URL}
             }
         }
 
