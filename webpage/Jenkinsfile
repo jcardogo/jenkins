@@ -42,7 +42,7 @@ pipeline {
                     sh '''
                         echo "FROM nginx:alpine" > Dockerfile
                         echo "COPY website_content/ /usr/share/nginx/html/" >> Dockerfile 
-                        docker build -t my-ngonx-image -f Dockerfile .
+                        docker build -t my-nginx-image -f Dockerfile .
                         docker run -d -p 8086:80 --name my-nginx-container my-nginx-image
                     '''
                 }
