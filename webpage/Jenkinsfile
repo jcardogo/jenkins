@@ -23,7 +23,7 @@ pipeline {
         //     }
         // }
 
-        stage('Checkout website content'){ {
+        stage('Checkout website content'){
             agent { label 'local' }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
