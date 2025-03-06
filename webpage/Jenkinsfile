@@ -28,9 +28,9 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
                     git branch: "${params.BRANCH}",
-                        credentialsId: 'Github_PAT',
-                        // url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
-                        url: "https://${params.REPO_URL}"
+                        //credentialsId: 'Github_PAT',
+                        url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
+                        //url: "https://${params.REPO_URL}"
                 }
             }
         }
