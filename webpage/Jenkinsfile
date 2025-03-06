@@ -14,14 +14,14 @@ pipeline {
             }
         }
 
-        // stage('Create Directory'){
-        //     agent { label 'local' }
-        //     steps {
-        //         script {
-        //             sh 'mkdir -p $WORKSPACE/website_content'
-        //         }
-        //     }
-        // }
+        stage('Create Directory'){
+            agent { label 'local' }
+            steps {
+                script {
+                    sh 'mkdir -p website_content'
+                }
+            }
+        }
 
         stage('Checkout website content'){
             agent { label 'local' }
