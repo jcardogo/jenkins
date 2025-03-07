@@ -1,8 +1,8 @@
 pipeline {
-    agent {label params.AGENT_LABEL}
+    agent {label params.AGENT_LABEL} //Define the agent to run the pipeline
 
     parameters {
-        choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'proxmox_Roky9_jenkins'], description: 'Agent to run the pipeline')
+        choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2'], description: 'Agent to run the pipeline') //Define the parameter array to choose the agent from
         string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
         string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout')
     }
@@ -10,30 +10,37 @@ pipeline {
     stages {
         stage('Wipe Workspace') {
             steps {
+                echo '***** Starting wipe up working directory *****'
                 deleteDir()
+                echo '-------wipe up done-------'
             }
         }
 
         stage('Create Directory'){
             steps {
                 script {
+                    echo '***** Creating directory *****'
                     sh 'mkdir -p website_content'
+                    echo '-------directory created-------'
                 }
             }
         }
 
         stage('Checkout website content'){
             steps {
+                echo '***** Checking out website content *****'
                 dir ('website_content'){
                     withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
                     git url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
                     }
                 }
+                echo '-------checkout done-------'
             }
         }
 
         stage('Dockerize Nginx'){
             steps {
+                echo '***** Dockerizing website on Nginx *****'
                 script {
                     sh '''
                         echo "FROM nginx:alpine" > Dockerfile
@@ -42,7 +49,31 @@ pipeline {
                         docker run -d -p 8086:80 --name my-nginx-container my-nginx-image
                     '''
                 }
+                echo '-------Dockerizing done-------'  
             }   
         }
+
+        stage('Wait 10 minutes again') {
+            steps {
+                echo '***** Waiting 10 minutes start*****'
+                script {
+                    sleep time: 2, unit: 'MINUTES'
+                }
+                echo '-------Waiting 10 minutes done-------'
+            }
+        }
+
+        stage('Stop and remove Docker containers') {
+            steps {
+                echo '***** Stopping and removing Docker containers *****'
+                script {
+                    sh 'docker stop $(docker ps -a -q)'
+                    sh 'docker rm $(docker ps -a -q)'
+                    sh 'docker image ls -q --sort created --limit 1 | xargs -r docker rmi | true'
+                }
+                echo '-------Docker containers stopped and removed-------'
+            }
+        }
+
     }
 }
