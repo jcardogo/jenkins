@@ -2,7 +2,7 @@ pipeline {
     agent {label params.AGENT_LABEL}
 
     parameters {
-        choice(name: 'AGENT_LABEL', choices:['local', 'Ubuntu_jenkins', 'proxmox_Roky9_jenkins'], description: 'Agent to run the pipeline')
+        choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'proxmox_Roky9_jenkins'], description: 'Agent to run the pipeline')
         string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
         string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout')
     }
