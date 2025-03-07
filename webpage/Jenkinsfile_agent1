@@ -1,21 +1,24 @@
 pipeline {
-    agent {label 'Ububtu_jenkins'}
+    agent {label params.AGENT_LABEL}
 
     parameters {
+        choice{
+            name('AGENT_LABEL')
+            choices('local', 'Ubuntu_jenkins', 'proxmox_Roky9_jenkins')
+            description('Agent to run the pipeline')
+        }
         string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
-        //string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout')
+        string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout')
     }
 
     stages {
         stage('Wipe Workspace') {
-            //agent {label 'local'}
             steps {
                 deleteDir()
             }
         }
 
         stage('Create Directory'){
-            //agent { label 'local' }
             steps {
                 script {
                     sh 'mkdir -p website_content'
@@ -24,7 +27,6 @@ pipeline {
         }
 
         stage('Checkout website content'){
-            //agent { label 'local' }
             steps {
                 dir ('website_content'){
                     withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
@@ -35,7 +37,6 @@ pipeline {
         }
 
         stage('Dockerize Nginx'){
-            //agent { label 'local' }
             steps {
                 script {
                     sh '''
