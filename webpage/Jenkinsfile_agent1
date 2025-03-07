@@ -1,0 +1,51 @@
+pipeline {
+    agent Ububtu_jenkins
+
+    parameters {
+        string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
+        //string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout')
+    }
+
+    stages {
+        stage('Wipe Workspace') {
+            //agent {label 'local'}
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Create Directory'){
+            //agent { label 'local' }
+            steps {
+                script {
+                    sh 'mkdir -p website_content'
+                }
+            }
+        }
+
+        stage('Checkout website content'){
+            //agent { label 'local' }
+            steps {
+                dir ('website_content'){
+                    withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
+                    git url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
+                    }
+                }
+            }
+        }
+
+        stage('Dockerize Nginx'){
+            //agent { label 'local' }
+            steps {
+                script {
+                    sh '''
+                        echo "FROM nginx:alpine" > Dockerfile
+                        echo "COPY website_content/ /usr/share/nginx/html/" >> Dockerfile 
+                        docker build -t my-nginx-image -f Dockerfile .
+                        docker run -d -p 8086:80 --name my-nginx-container my-nginx-image
+                    '''
+                }
+            }   
+        }
+    }
+}
