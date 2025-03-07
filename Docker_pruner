@@ -11,6 +11,7 @@ pipeline {
                 script {
                     sh 'docker stop $(docker ps -a -q)'
                     sh 'docker rm $(docker ps -a -q)'
+                    sh 'docker image ls -q --sort creted --limit 1 | xargs -r docker rmi | true'
                 }
             }
         }

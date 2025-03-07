@@ -57,7 +57,7 @@ pipeline {
             steps {
                 echo '***** Waiting 10 minutes start*****'
                 script {
-                    sleep time: 2, unit: 'MINUTES'
+                    sleep time: 10, unit: 'MINUTES'
                 }
                 echo '-------Waiting 10 minutes done-------'
             }
@@ -69,7 +69,7 @@ pipeline {
                 script {
                     sh 'docker stop $(docker ps -a -q)'
                     sh 'docker rm $(docker ps -a -q)'
-                    sh 'docker image ls -q --sort created --limit 1 | xargs -r docker rmi | true'
+                    sh 'docker image ls -q | xargs -r docker rmi | true'
                 }
                 echo '-------Docker containers stopped and removed-------'
             }
