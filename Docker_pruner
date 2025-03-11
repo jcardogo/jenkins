@@ -2,7 +2,7 @@ pipeline {
     agent {label params.AGENT_LABEL}
 
     parameters {
-        choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'proxmox_Roky9_jenkins'], description: 'Agent to run the pipeline')
+        choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline')
     }
 
     stages {
