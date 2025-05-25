@@ -17,14 +17,14 @@ pipeline {
                     // Check if the directory already exists
                     if (new File(targetDir).exists()) {
                         echo "Directory '${targetDir}' already exists."
+                        sh 'rm -rf /tmp/'${targetDir}'/*'
+                        echo "Successfully wiped out all contents of /tmp/'${targetDir}'."
                     } else {
                         // Attempt to create the directory
                         boolean created = new File(targetDir).mkdirs()
                         if (created) {
+                            sh 'mkdir -p /tmp/'${targetDir}
                             echo "Successfully created directory '${targetDir}'."
-                            // Only wipe /tmp/sandbox if the directory creation was successful
-                            sh 'rm -rf /tmp/sandbox/*'
-                            echo "Successfully wiped out all contents of /tmp/sandbox."
                         } else {
                             error "Failed to create directory '${targetDir}'."
                         }
