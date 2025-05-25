@@ -9,12 +9,12 @@ pipeline {
     
     stages {
         stage('Workspace Cleanup') {
-            //agent {label "${params.AGENT_LABEL}"} // Define the agent to run the pipeline
+            agent {label "${params.AGENT_LABEL}"} // Define the agent to run the pipeline
             steps {
                 echo '***** Starting check and wipe up working directory *****'
                 sh "cat /etc/os-release" // Log the OS release information
                 sh "uname -a" // Log the kernel version
-                sh "ip address show | greep global" // Log the current working directory
+                sh "ip address show" // Log the IP address information
                 script {
                     def targetDir = 'sandbox1' // Define the directory name
 
