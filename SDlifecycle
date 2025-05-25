@@ -39,7 +39,6 @@ pipeline {
                         }
                     }
                     sh "cd /tmp/${targetDir}" // Change to the target directory
-                    echo "Current working directory: "$(pwd)" " // Log the current working directory
                 }
                 echo '-------workspace ready-------'
             }
