@@ -18,7 +18,9 @@ pipeline {
 
                     // Check if the directory already exists
                     def dirExistsStatus = sh(script: "test -d /tmp/\"${targetDir}\"", returnStatus: true) // Check if the directory exists
-                    echo "Directory exists status: ${dirExistsStatus}" // Log the status of the directory existence check
+                    echo "Directory exists status (0=exist, 1=does not exist): ${dirExistsStatus}" // Log the status of the directory existence check
+                    echo """Directory path and name: /tmp/"${targetDir}" """ // Log the directory name
+                    
                     if (dirExistsStatus == 0 ) { // Check if the directory exists 
                         echo "Directory '${targetDir}' already exists..... starting the wipeout" // Log the existence of the directory
                         try {
