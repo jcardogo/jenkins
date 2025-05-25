@@ -8,28 +8,32 @@ pipeline {
     }
     
     stages {
-        stage('Workspace preparation') {
+        stage('Workspace Cleanup') {
             steps {
                 echo '***** Starting check and wipe up working directory *****'
                 script {
                     def targetDir = 'sandbox1' // Define the directory name
 
                     // Check if the directory already exists
-                    if (new File(targetDir).exists()) {
+                    def dirExistsStatus = sh(script: "test -d \"${targetDir}\"", returnStatus: true) // Check if the directory exists
+                    if (dirExistsStatus == true ) { // Check if the directory exists 
                         echo "Directory '${targetDir}' already exists..... starting the wipeout" // Log the existence of the directory
-                        sh """rm -rf "${targetDir}"/*""" // Wipe the contents of the directory
-                        echo "Successfully wiped out all contents of /tmp/'${targetDir}'." // Log the successful wipeout
+                        try {
+                            sh """rm -rf /tmp/"${targetDir}"/*""" // Wipe the contents of the directory
+                            echo "Successfully wiped out all contents of /tmp/'${targetDir}'." // Log the successful wipeout
+                        } catch (Exception e) {
+                            error "Failed to wipe out contents of '${targetDir}'. Error: ${e.getMessage()}" // Log the error if wipeout fails
+                        }
                     } else {
-                        // Attempt to create the directory
-                        sh """mkdir -p /tmp/"${targetDir}" """ // Create the directory if it does not exist
-                        boolean created = new File(targetDir).exists() // Check if the directory was created successfully
-                        if (created) {
-                            echo "Successfully created directory '${targetDir}'."
-                        } else {
-                            error "Failed to create directory '${targetDir}'."
+                        echo "Directory '${targetDir}' does not exist..... creating it" // Log the non-existence of the directory
+                        try {
+                            sh """mkdir -p /tmp/"${targetDir}" """ // Create the directory if it does not exist
+                            boolean created = new File(targetDir).exists() // Check if the directory was created successfully
+                        } catch (Exception e) {
+                            error "Failed to create directory '${targetDir}'. Error: ${e.getMessage()}" // Log the error if directory creation fails
                         }
                     }
-                }    
+                }
                 echo '-------wipe up done-------'
             }
         }
