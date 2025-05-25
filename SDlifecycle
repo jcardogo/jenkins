@@ -9,7 +9,7 @@ pipeline {
     
     stages {
         stage('Workspace Cleanup') {
-            agent {label "${params.AGENT_LABEL}"} // Define the agent to run the pipeline
+            //agent {label "${params.AGENT_LABEL}"} // Define the agent to run the pipeline
             steps {
                 echo '***** Starting check and wipe up working directory *****'
                 script {
