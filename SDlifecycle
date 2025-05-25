@@ -8,22 +8,22 @@ pipeline {
     }
     
     stages {
-        stage('Wipe Workspace') {
+        stage('Workspace preparation') {
             steps {
-                echo '***** Starting wipe up working directory *****'
+                echo '***** Starting check and wipe up working directory *****'
                 script {
                     def targetDir = 'sandbox1' // Define the directory name
 
                     // Check if the directory already exists
                     if (new File(targetDir).exists()) {
-                        echo "Directory '${targetDir}' already exists."
-                        sh 'rm -rf /tmp/'${targetDir}'/*'
-                        echo "Successfully wiped out all contents of /tmp/'${targetDir}'."
+                        echo "Directory '${targetDir}' already exists..... starting the wipeout" // Log the existence of the directory
+                        sh """rm -rf "${targetDir}"/*""" // Wipe the contents of the directory
+                        echo "Successfully wiped out all contents of /tmp/'${targetDir}'." // Log the successful wipeout
                     } else {
                         // Attempt to create the directory
-                        boolean created = new File(targetDir).mkdirs()
+                        sh """mkdir -p /tmp/"${targetDir}" """ // Create the directory if it does not exist
+                        boolean created = new File(targetDir).exists() // Check if the directory was created successfully
                         if (created) {
-                            sh 'mkdir -p /tmp/'${targetDir}
                             echo "Successfully created directory '${targetDir}'."
                         } else {
                             error "Failed to create directory '${targetDir}'."
