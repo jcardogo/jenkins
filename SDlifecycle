@@ -29,6 +29,7 @@ pipeline {
                             error "Failed to create directory '${targetDir}'."
                         }
                     }
+                }    
                 echo '-------wipe up done-------'
             }
         }
