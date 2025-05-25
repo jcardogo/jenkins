@@ -7,8 +7,22 @@ pipeline {
         string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout') // Branch to checkout
     }
     
+    tools {
+        maven 'maven-3.6.3' // Define the Maven version to use
+        jdk 'jdk-17' // Define the JDK version to use
+    }
+
+    environment {
+        DOCKER_CREDENTIALS_ID = 'dockerhub_credentials' // Define the Docker credentials ID
+        DOCKER_IMAGE_NAME = 'your-docker-image-name' // Define the Docker image name
+        DOCKER_REGISTRY = 'your-docker-registry-url' // Define the Docker registry URL
+        SONARQUBE_URL = 'your-sonarqube-url' // Define the SonarQube URL
+        SONARQUBE_TOKEN = 'your-sonarqube-token' // Define the SonarQube token
+        KUBECONFIG = credentials('kubeconfig') // Define the Kubernetes config file
+        GITHUB_USER = credentials('Github_PAT') // Define the GitHub user credentials
+
     stages {
-        stage('Workspace Cleanup') {
+        stage('1. Workspace Cleanup') {
             //agent {label "${params.AGENT_LABEL}"} // Define the agent to run the pipeline
             steps {
                 echo '***** Starting check and wipe up working directory *****'
@@ -44,7 +58,7 @@ pipeline {
             }
         }
         
-        stage('Checkout website content') {
+        stage('2. git Checkout website content') {
             steps {
                 echo '***** Checking out website content *****'
                 dir ('website_content'){
@@ -56,7 +70,7 @@ pipeline {
             }
         }
 
-        /*stage('Static Analysis') {
+        stage('3. Static Analysis') {
             steps {
                 script {
                     def sonarQubeResult = sh(script: 'mvn sonar:sonar -Dsonar.projectKey=your-project -Dsonar.host.url=your-sonarqube-url -Dsonar.login=your-token', returnStatus: true)
@@ -69,13 +83,13 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        /*stage('4. Build') {
             steps {
                 sh 'mvn clean package'
             }
         }
 
-        stage('Unit Tests') {
+        stage('5. Unit Tests') {
             steps {
                 sh 'mvn test'
                 script {
@@ -89,32 +103,32 @@ pipeline {
             }
         }
 
-        stage('Integration Tests') {
+        stage('6. Integration Tests') {
             steps {
                 sh 'mvn failsafe:integration-test failsafe:verify'
             }
         }
 
-        stage('Containerize') {
+        stage('7. Containerize') {
             steps {
                 sh 'docker build -t your-image:latest .'
                 // Add image vulnerability scanning here
             }
         }
 
-        stage('Deploy to Dev') {
+        stage('8. Deploy to Dev') {
             steps {
                 sh 'kubectl apply -f deployment-dev.yaml'
             }
         }
 
-        stage('Manual Approval for Production') {
+        stage('9. Manual Approval for Production') {
             steps {
                 input message: 'Approve deployment to production?', submitterParameter: 'APPROVER'
             }
         }
 
-        stage('Deploy to Production') {
+        stage('10. Deploy to Production') {
             when {
                 expression { APPROVER != null }
             }
