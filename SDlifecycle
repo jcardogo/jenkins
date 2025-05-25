@@ -39,17 +39,23 @@ pipeline {
                         }
                     }
                 }
-                echo '-------wipe up done-------'
+                echo '-------workspace ready-------'
             }
         }
         
-        /*stage('Checkout') {
+        stage('Checkout website content') {
             steps {
-                git 'https://your-repo-url.git'
+                echo '***** Checking out website content *****'
+                dir ('website_content'){
+                    withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
+                    git url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
+                    }
+                }
+                echo '-------checkout done-------'
             }
         }
 
-        stage('Static Analysis') {
+        /*stage('Static Analysis') {
             steps {
                 script {
                     def sonarQubeResult = sh(script: 'mvn sonar:sonar -Dsonar.projectKey=your-project -Dsonar.host.url=your-sonarqube-url -Dsonar.login=your-token', returnStatus: true)
