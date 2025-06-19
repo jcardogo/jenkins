@@ -31,7 +31,7 @@ pipeline {
                 echo '***** Checking out website content *****'
                 dir ('website_content'){
                     withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
-                    git url: "https://${GITHUB_USER}:${GITHUB_PWD}@${params.REPO_URL}"
+                    git url: "${params.REPO_URL}", credentialsID: 'Github_PAT'
                     }
                 }
                 echo '-------checkout done-------'
