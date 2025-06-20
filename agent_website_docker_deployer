@@ -3,8 +3,11 @@ pipeline {
 
     parameters {
         choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline') //Define the parameter array to choose the agent from
-        string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
-        string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout')
+        string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL') // Define the Git repository URL
+        string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout') // Define the branch to checkout
+        string(name: 'ARTIFACTORY_DOCKER_REGISTRY', defaultValue: 'artifactory.example.com', description: 'Your Artifactory Docker registry domain') // Define the Artifactory Docker registry domain
+        string(name: 'ARTIFACTORY_REPO_PATH', defaultValue: 'my-docker-repo', description: 'Path to your Docker repo in Artifactory') // Define the path to your Docker repo in Artifactory
+        string(name: 'APP_IMAGE_NAME', defaultValue: 'my-nginx-website', description: 'Name of the application Docker image')
     }
 
     stages {
@@ -46,12 +49,43 @@ pipeline {
                         echo "FROM nginx:alpine" > Dockerfile
                         echo "COPY website_content/ /usr/share/nginx/html/" >> Dockerfile 
                         docker build -t my-nginx-image -f Dockerfile .
-                        docker run -d -p 8086:80 --name my-nginx-container my-nginx-image
+                        #docker run -d -p 8086:80 --name my-nginx-container my-nginx-image #commentent this line if you don't want to run the container
                     '''
                 }
                 echo '-------Dockerizing done-------'  
             }   
         }
+
+         // --- NEW STAGE: PUBLISH DOCKER IMAGE TO ARTIFACTORY ---
+        stage('Publish Docker Image to Artifactory') {
+            steps {
+                echo '***** Publishing Docker image to Artifactory *****'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'Artifactory_Docker_Creds', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PWD')]) {
+                        // 1. Define the full target image name for Artifactory
+                        // Example: artifactory.example.com/my-docker-repo/my-nginx-website:1
+                        def fullArtifactoryImage = "${params.ARTIFACTORY_DOCKER_REGISTRY}/${params.ARTIFACTORY_REPO_PATH}/${params.APP_IMAGE_NAME}:${env.BUILD_NUMBER}"
+
+                        // 2. Log in to Artifactory Docker registry
+                        sh "docker login -u ${ARTIFACTORY_USER} -p ${ARTIFACTORY_PWD} ${params.ARTIFACTORY_DOCKER_REGISTRY}"
+
+                        // 3. Tag the locally built image with the Artifactory path
+                        sh "docker tag my-nginx-image ${fullArtifactoryImage}"
+
+                        // 4. Push the tagged image to Artifactory
+                        sh "docker push ${fullArtifactoryImage}"
+
+                        // Optional: Logout from Docker registry (good practice)
+                        sh "docker logout ${params.ARTIFACTORY_DOCKER_REGISTRY}"
+
+                        echo "Successfully pushed image: ${fullArtifactoryImage}"
+                    }
+                }
+                echo '-------Image published-------'
+            }
+        }
+        // --- END NEW STAGE ---
+
 
         stage('Wait 10 minutes again') {
             steps {
