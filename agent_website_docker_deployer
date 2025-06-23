@@ -3,6 +3,7 @@ pipeline {
 
     parameters {
         choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline') //Define the parameter array to choose the agent from
+        choice(name: 'BRANCH' , choices:['master', 'dockerhub'], description: 'Branch to run the pipeline from') //Define the parameter array to choose the branch from
         string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
         string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout')
     }
