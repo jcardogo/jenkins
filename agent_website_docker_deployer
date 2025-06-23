@@ -6,9 +6,10 @@ pipeline {
         choice(name: 'BRANCH' , choices:['master', 'dockerhub'], description: 'Branch to run the pipeline from') //Define the parameter array to choose the branch from
         string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL') // Define the Git repository URL
         // --- Artifactory Docker Registry -- //
-        string(name: 'ARTIFACTORY_DOCKER_REGISTRY', defaultValue: 'artifactory.example.com', description: 'Your Artifactory Docker registry domain') // Define the Artifactory Docker registry domain
-        string(name: 'ARTIFACTORY_REPO_PATH', defaultValue: 'my-docker-repo', description: 'Path to your Docker repo in Artifactory') // Define the path to your Docker repo in Artifactory
-        string(name: 'APP_IMAGE_NAME', defaultValue: 'my-nginx-website', description: 'Name of the application Docker image')
+        string(name: 'ARTIFACTORY_DOCKER_REGISTRY', defaultValue: 'https://hub.docker.com/', description: 'Your Artifactory Docker registry domain') // Define the Artifactory Docker registry domain
+        string(name: 'ARTIFACTORY_REPO_PATH', defaultValue: 'jcardogo/acardogo', description: 'Path to your Docker repo in Artifactory') // Define the path to your Docker repo in Artifactory
+        string(name: 'DOCKER_CREDENTIAL_ID', defaultValue: 'DockerHub_PAT', description: 'Jenkins Credential ID for Docker Registry authentication')
+        string(name: 'APP_IMAGE_NAME', defaultValue: 'acardogo_prueba0', description: 'Name of the application Docker image')
     }
 
     stages {
