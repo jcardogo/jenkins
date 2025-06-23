@@ -3,8 +3,9 @@ pipeline {
 
     parameters {
         choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline') //Define the parameter array to choose the agent from
+        choice(name: 'BRANCH' , choices:['master', 'dockerhub'], description: 'Branch to run the pipeline from') //Define the parameter array to choose the branch from
         string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL') // Define the Git repository URL
-        string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to checkout') // Define the branch to checkout
+        // --- Artifactory Docker Registry -- //
         string(name: 'ARTIFACTORY_DOCKER_REGISTRY', defaultValue: 'artifactory.example.com', description: 'Your Artifactory Docker registry domain') // Define the Artifactory Docker registry domain
         string(name: 'ARTIFACTORY_REPO_PATH', defaultValue: 'my-docker-repo', description: 'Path to your Docker repo in Artifactory') // Define the path to your Docker repo in Artifactory
         string(name: 'APP_IMAGE_NAME', defaultValue: 'my-nginx-website', description: 'Name of the application Docker image')
@@ -49,7 +50,7 @@ pipeline {
                         echo "FROM nginx:alpine" > Dockerfile
                         echo "COPY website_content/ /usr/share/nginx/html/" >> Dockerfile 
                         docker build -t my-nginx-image -f Dockerfile .
-                        #docker run -d -p 8086:80 --name my-nginx-container my-nginx-image #commentent this line if you don't want to run the container
+                        ##docker run -d -p 8086:80 --name my-nginx-container my-nginx-image #commentent this line if you don't want to run the container
                     '''
                 }
                 echo '-------Dockerizing done-------'  
