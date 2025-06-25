@@ -61,11 +61,11 @@ pipeline {
             steps {
                 echo '***** Pushing image to Docker Hub *****'
                 script {
-                    // Define the Docker image tag using the Jenkins BUILD_NUMBER
                     def dockerImageTag = "${env.BUILD_NUMBER}" // e.g., '1', '2', '3', etc.
-                    def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
-
+                    
                     withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
+                        
                         echo "Tagging image my-nginx-image:latest as ${fullImageName}"
                         sh "docker tag my-nginx-image:latest ${fullImageName}"
                         echo "Pushing image ${fullImageName} to Docker Hub"
