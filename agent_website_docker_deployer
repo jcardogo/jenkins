@@ -4,12 +4,12 @@ pipeline {
     parameters {
         choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline') //Define the parameter array to choose the agent from
         choice(name: 'BRANCH' , choices:['master', 'dockerhub'], description: 'Branch to run the pipeline from') //Define the parameter array to choose the branch from
-        string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL') // Define the Git repository URL
-        // --- Artifactory Docker Registry -- //
-        string(name: 'ARTIFACTORY_DOCKER_REGISTRY', defaultValue: 'https://hub.docker.com/', description: 'Your Artifactory Docker registry domain') // Define the Artifactory Docker registry domain
-        string(name: 'ARTIFACTORY_REPO_PATH', defaultValue: 'jcardogo/acardogo', description: 'Path to your Docker repo in Artifactory') // Define the path to your Docker repo in Artifactory
-        string(name: 'DOCKER_CREDENTIAL_ID', defaultValue: 'DockerHub_PAT', description: 'Jenkins Credential ID for Docker Registry authentication')
-        string(name: 'APP_IMAGE_NAME', defaultValue: 'acardogo_prueba0', description: 'Name of the application Docker image')
+        string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
+        // Parameter for Docker Hub credentials ID
+        string(name: 'DOCKERHUB_CREDENTIALS_ID', defaultValue: 'dockerhub_jcardogo', description: 'Jenkins Credentials ID for Docker Hub login')
+        // Parameter for Docker Hub repository name
+        string(name: 'DOCKERHUB_REPO_NAME', defaultValue: 'acardogo', description: 'Docker Hub repository name (e.g., my-app)')
+        // Removed IMAGE_TAG parameter here, as it will be generated automatically
     }
 
     stages {
@@ -36,7 +36,7 @@ pipeline {
                 echo '***** Checking out website content *****'
                 dir ('website_content'){
                     withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
-                        git url: "https://${params.REPO_URL}", credentialsId: 'Github_PAT'
+                        git url: "https://${params.REPO_URL}", credentialsId: 'Github_PAT', branch: params.BRANCH_PARAM
                     }
                 }
                 echo '-------checkout done-------'
@@ -49,67 +49,70 @@ pipeline {
                 script {
                     sh '''
                         echo "FROM nginx:alpine" > Dockerfile
-                        echo "COPY website_content/ /usr/share/nginx/html/" >> Dockerfile 
-                        docker build -t my-nginx-image -f Dockerfile .
-                        ##docker run -d -p 8086:80 --name my-nginx-container my-nginx-image #commentent this line if you don't want to run the container
+                        echo "COPY website_content/ /usr/share/nginx/html/" >> Dockerfile
+                        docker build -t my-nginx-image:latest -f Dockerfile .
                     '''
                 }
-                echo '-------Dockerizing done-------'  
-            }   
-        }
-
-         // --- NEW STAGE: PUBLISH DOCKER IMAGE TO ARTIFACTORY ---
-        stage('Publish Docker Image to Artifactory') {
-            steps {
-                echo '***** Publishing Docker image to Artifactory *****'
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'Artifactory_Docker_Creds', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PWD')]) {
-                        // 1. Define the full target image name for Artifactory
-                        // Example: artifactory.example.com/my-docker-repo/my-nginx-website:1
-                        def fullArtifactoryImage = "${params.ARTIFACTORY_DOCKER_REGISTRY}/${params.ARTIFACTORY_REPO_PATH}/${params.APP_IMAGE_NAME}:${env.BUILD_NUMBER}"
-
-                        // 2. Log in to Artifactory Docker registry
-                        sh "docker login -u ${ARTIFACTORY_USER} -p ${ARTIFACTORY_PWD} ${params.ARTIFACTORY_DOCKER_REGISTRY}"
-
-                        // 3. Tag the locally built image with the Artifactory path
-                        sh "docker tag my-nginx-image ${fullArtifactoryImage}"
-
-                        // 4. Push the tagged image to Artifactory
-                        sh "docker push ${fullArtifactoryImage}"
-
-                        // Optional: Logout from Docker registry (good practice)
-                        sh "docker logout ${params.ARTIFACTORY_DOCKER_REGISTRY}"
-
-                        echo "Successfully pushed image: ${fullArtifactoryImage}"
-                    }
-                }
-                echo '-------Image published-------'
+                echo '-------Dockerizing done-------'
             }
         }
-        // --- END NEW STAGE ---
 
-
-        stage('Wait 10 minutes again') {
+        stage('Push Image to Docker Hub') {
             steps {
-                echo '***** Waiting 10 minutes start*****'
+                echo '***** Pushing image to Docker Hub *****'
                 script {
-                    sleep time: 10, unit: 'MINUTES'
+                    // Define the Docker image tag using the Jenkins BUILD_NUMBER
+                    def dockerImageTag = "${env.BUILD_NUMBER}" // e.g., '1', '2', '3', etc.
+                    def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
+
+                    withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        echo "Tagging image my-nginx-image:latest as ${fullImageName}"
+                        sh "docker tag my-nginx-image:latest ${fullImageName}"
+                        echo "Pushing image ${fullImageName} to Docker Hub"
+                        sh "docker push ${fullImageName}"
+                    }
                 }
-                echo '-------Waiting 10 minutes done-------'
+                echo '-------Image pushed to Docker Hub-------'
+            }
+        }
+
+        stage('Run Docker Container (Temporary for testing)'){
+            steps {
+                echo '***** Running Docker container locally for testing *****'
+                script {
+                    // Still run the 'latest' local image for simplicity in testing
+                    sh 'docker run -d -p 8086:80 --name my-nginx-container my-nginx-image:latest'
+                }
+                echo '-------Container running-------'
+            }
+        }
+
+        stage('Wait 10 seconds (for container to start)') {
+            steps {
+                echo '***** Waiting 10 seconds for container to start *****'
+                script {
+                    sleep time: 10, unit: 'SECONDS'
+                }
+                echo '-------Waiting done-------'
             }
         }
 
         stage('Stop and remove Docker containers') {
             steps {
-                echo '***** Stopping and removing Docker containers *****'
+                echo '***** Stopping and removing Docker containers and images *****'
                 script {
-                    sh 'docker stop $(docker ps -a -q)'
-                    sh 'docker rm $(docker ps -a -q)'
-                    sh 'docker image ls -q | xargs -r docker rmi | true'
+                    // Define the Docker image tag again to clean up
+                    def dockerImageTag = "${env.BUILD_NUMBER}"
+                    def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
+
+                    sh 'docker stop $(docker ps -a -q) || true' // Add || true to prevent build failure if no containers
+                    sh 'docker rm $(docker ps -a -q) || true'   // Add || true
+                    sh 'docker rmi my-nginx-image:latest || true' // Remove the locally built image
+                    sh "docker rmi ${fullImageName} || true"      // Remove the tagged image for Docker Hub
+                    sh 'docker system prune -f' // Clean up unused data more aggressively
                 }
-                echo '-------Docker containers stopped and removed-------'
+                echo '-------Docker containers and images stopped and removed-------'
             }
         }
-
     }
 }
