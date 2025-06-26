@@ -8,7 +8,7 @@ pipeline {
         // Parameter for Docker Hub credentials ID
         string(name: 'DOCKERHUB_CREDENTIALS_ID', defaultValue: 'dockerhub_jcardogo', description: 'Jenkins Credentials ID for Docker Hub login')
         // Parameter for Docker Hub repository name
-        string(name: 'DOCKERHUB_REPO_NAME', defaultValue: 'acardogo', description: 'Docker Hub repository name (e.g., my-app)')
+        string(name: 'DOCKERHUB_REPO_NAME', defaultValue: 'acardogo', description: 'Docker Hub repository name')
         // Removed IMAGE_TAG parameter here, as it will be generated automatically
     }
 
