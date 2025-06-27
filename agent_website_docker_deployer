@@ -79,6 +79,8 @@ pipeline {
                         
                         echo "Tagging image my-nginx-image:latest as ${fullImageName}"
                         sh "docker tag my-nginx-image:latest ${fullImageName}"
+                        sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}" // Login to Docker Hub
+                        sh "docker info" // Print Docker info for debugging
                         echo "Pushing image ${fullImageName} to Docker Hub"
                         sh "docker push ${fullImageName}"
                     }
@@ -98,11 +100,11 @@ pipeline {
             }
         }
 
-        stage('Wait 10 seconds (for container to start)') {
+        stage('Wait 100 seconds (for container to start)') {
             steps {
-                echo '***** Waiting 10 seconds for container to start *****'
+                echo '***** Waiting 100 seconds for container to start *****'
                 script {
-                    sleep time: 10, unit: 'SECONDS'
+                    sleep time: 100, unit: 'SECONDS'
                 }
                 echo '-------Waiting done-------'
             }
