@@ -100,7 +100,8 @@ pipeline {
                 echo '***** Running Docker container locally for testing *****'
                 script {
                     // Still run the 'latest' local image for simplicity in testing
-                    sh 'docker run -d -p 8086:80 --name test-${env.FULL_DOCKER_IMAGE_NAME} ${env.FULL_DOCKER_IMAGE_NAME}'
+                    def containerName = "test-${env.FULL_DOCKER_IMAGE_NAME}"
+                    sh 'docker run -d -p 8086:80 --name' + containerName + '' + env.FULL_DOCKER_IMAGE_NAME
                 }
                 echo '-------Container running-------'
             }
@@ -121,14 +122,16 @@ pipeline {
                 echo '***** Stopping and removing Docker containers and images *****'
                 script {
                      withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        def pushedImageName = env.FULL_DOCKER_IMAGE_NAME
+                        def containerName = "test-${env.FULL_DOCKER_IMAGE_NAME}"
                         // Define the Docker image tag again to clean up
                         // def dockerImageTag = "${env.BUILD_NUMBER}"
                         // Now DOCKER_USER is in scope here
                         //def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
                         def pushedImageName = env.FULL_DOCKER_IMAGE_NAME
 
-                        sh 'docker stop $(docker ps -a -q) || true'
-                        sh 'docker rm $(docker ps -a -q) || true'
+                        sh 'docker stop ${containerName} || true'
+                        sh 'docker rm ${containerName} || true'
                         sh 'docker rmi my-nginx-image:latest || true'
                         sh "docker rmi ${pushedImageName} || true"
                         // You might also want to log out if not handled automatically, or just let it expire
