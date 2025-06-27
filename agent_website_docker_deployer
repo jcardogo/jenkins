@@ -56,7 +56,7 @@ pipeline {
                 echo '-------Dockerizing done-------'
             }
         }
-
+        /* commented out to avoid issues with Docker context in Jenkins
         stage ('Check docker context') {
             steps {
                 echo '***** Checking Docker context *****'
@@ -66,7 +66,8 @@ pipeline {
                 }
                 echo '-------Docker context checked-------'
             }
-        } 
+        }
+        */
 
         stage('Push Image to Docker Hub') {
             steps {
@@ -79,11 +80,15 @@ pipeline {
                         
                         echo "Tagging image my-nginx-image:latest as ${fullImageName}"
                         sh "docker tag my-nginx-image:latest ${fullImageName}"
-                        //sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}" // Login to Docker Hub
+                        // Login to Docker Hub using credentials
                         sh "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin" // Login to Docker Hub using password from credentials
+                        
                         sh "docker info" // Print Docker info for debugging
                         echo "Pushing image ${fullImageName} to Docker Hub"
                         sh "docker push ${fullImageName}"
+
+                        // Store the full image name in an environment variable for later stages
+                        env.FULL_DOCKER_IMAGE_NAME = fullImageName
                     }
                 }
                 echo '-------Image pushed to Docker Hub-------'
@@ -95,17 +100,17 @@ pipeline {
                 echo '***** Running Docker container locally for testing *****'
                 script {
                     // Still run the 'latest' local image for simplicity in testing
-                    sh 'docker run -d -p 8086:80 --name my-nginx-container my-nginx-image:latest'
+                    sh 'docker run -d -p 8086:80 --name test-${env.FULL_DOCKER_IMAGE_NAME} ${env.FULL_DOCKER_IMAGE_NAME}'
                 }
                 echo '-------Container running-------'
             }
         }
 
-        stage('Wait 100 seconds (for container to start)') {
+        stage('Wait 5 minutes (for container to start)') {
             steps {
-                echo '***** Waiting 100 seconds for container to start *****'
+                echo '***** Waiting 5 minutes for container to start *****'
                 script {
-                    sleep time: 100, unit: 'SECONDS'
+                    sleep time: 5, unit: 'MINUTES'
                 }
                 echo '-------Waiting done-------'
             }
@@ -117,16 +122,17 @@ pipeline {
                 script {
                      withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         // Define the Docker image tag again to clean up
-                        def dockerImageTag = "${env.BUILD_NUMBER}"
+                        // def dockerImageTag = "${env.BUILD_NUMBER}"
                         // Now DOCKER_USER is in scope here
-                        def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
+                        //def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
+                        def pushedImageName = env.FULL_DOCKER_IMAGE_NAME
 
                         sh 'docker stop $(docker ps -a -q) || true'
                         sh 'docker rm $(docker ps -a -q) || true'
                         sh 'docker rmi my-nginx-image:latest || true'
-                        sh "docker rmi ${fullImageName} || true"
+                        sh "docker rmi ${pushedImageName} || true"
                         // You might also want to log out if not handled automatically, or just let it expire
-                        // sh "docker logout" // Optional: if you want to explicitly log out
+                        sh "docker logout" // Optional: if you want to explicitly log out
                         sh 'docker system prune -f'
                      }
                 }
