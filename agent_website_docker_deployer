@@ -101,7 +101,7 @@ pipeline {
                 script {
                     // Still run the 'latest' local image for simplicity in testing
                     def containerName = "test-website-${env.BUILD_NUMBER}"
-                    sh 'docker run -d -p 8086:80 --name' + containerName + ' ' + env.FULL_DOCKER_IMAGE_NAME
+                    sh 'docker run -d -p 8086:80 --name ' + containerName + ' ' + env.FULL_DOCKER_IMAGE_NAME
                 }
                 echo '-------Container running-------'
             }
