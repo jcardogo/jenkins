@@ -79,7 +79,8 @@ pipeline {
                         
                         echo "Tagging image my-nginx-image:latest as ${fullImageName}"
                         sh "docker tag my-nginx-image:latest ${fullImageName}"
-                        sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}" // Login to Docker Hub
+                        //sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}" // Login to Docker Hub
+                        sh "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin" // Login to Docker Hub using password from credentials
                         sh "docker info" // Print Docker info for debugging
                         echo "Pushing image ${fullImageName} to Docker Hub"
                         sh "docker push ${fullImageName}"
@@ -114,15 +115,19 @@ pipeline {
             steps {
                 echo '***** Stopping and removing Docker containers and images *****'
                 script {
-                    // Define the Docker image tag again to clean up
-                    def dockerImageTag = "${env.BUILD_NUMBER}"
-                    def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
+                     withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        // Define the Docker image tag again to clean up
+                        def dockerImageTag = "${env.BUILD_NUMBER}"
+                        // Now DOCKER_USER is in scope here
+                        def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
 
-                    sh 'docker stop $(docker ps -a -q) || true' // Add || true to prevent build failure if no containers
-                    sh 'docker rm $(docker ps -a -q) || true'   // Add || true
-                    sh 'docker rmi my-nginx-image:latest || true' // Remove the locally built image
-                    sh "docker rmi ${fullImageName} || true"      // Remove the tagged image for Docker Hub
-                    sh 'docker system prune -f' // Clean up unused data more aggressively
+                        sh 'docker stop $(docker ps -a -q) || true'
+                        sh 'docker rm $(docker ps -a -q) || true'
+                        sh 'docker rmi my-nginx-image:latest || true'
+                        sh "docker rmi ${fullImageName} || true"
+                        // You might also want to log out if not handled automatically, or just let it expire
+                        // sh "docker logout" // Optional: if you want to explicitly log out
+                        sh 'docker system prune -f'
                 }
                 echo '-------Docker containers and images stopped and removed-------'
             }
