@@ -123,7 +123,7 @@ pipeline {
                 script {
                      withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         def pushedImageName = env.FULL_DOCKER_IMAGE_NAME
-                        def containerName = "test-${env.FULL_DOCKER_IMAGE_NAME}"
+                        def containerName = "test-website-${env.BUILD_NUMBER}"
 
                         sh 'docker stop ${containerName} || true'
                         sh 'docker rm ${containerName} || true'
