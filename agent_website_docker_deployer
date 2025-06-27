@@ -128,6 +128,7 @@ pipeline {
                         // You might also want to log out if not handled automatically, or just let it expire
                         // sh "docker logout" // Optional: if you want to explicitly log out
                         sh 'docker system prune -f'
+                     }
                 }
                 echo '-------Docker containers and images stopped and removed-------'
             }
