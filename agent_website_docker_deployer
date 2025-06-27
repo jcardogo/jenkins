@@ -57,6 +57,17 @@ pipeline {
             }
         }
 
+        stage ('Check docker context') {
+            steps {
+                echo '***** Checking Docker context *****'
+                script {
+                    sh 'docker images' // List Docker images to verify the build
+                    sh 'docker context ls' // List all Docker contexts
+                }
+                echo '-------Docker context checked-------'
+            }
+        } 
+
         stage('Push Image to Docker Hub') {
             steps {
                 echo '***** Pushing image to Docker Hub *****'
