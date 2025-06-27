@@ -124,11 +124,6 @@ pipeline {
                      withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         def pushedImageName = env.FULL_DOCKER_IMAGE_NAME
                         def containerName = "test-${env.FULL_DOCKER_IMAGE_NAME}"
-                        // Define the Docker image tag again to clean up
-                        // def dockerImageTag = "${env.BUILD_NUMBER}"
-                        // Now DOCKER_USER is in scope here
-                        //def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
-                        def pushedImageName = env.FULL_DOCKER_IMAGE_NAME
 
                         sh 'docker stop ${containerName} || true'
                         sh 'docker rm ${containerName} || true'
