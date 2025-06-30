@@ -1,17 +1,18 @@
 pipeline {
+    // This pipeline deploys a website using local Docker and Nginx for 5 minutes and then stop removes the Docker containers.
     agent {label params.AGENT_LABEL} //Define the agent to run the pipeline
 
     parameters {
         choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline') //Define the parameter array to choose the agent from
-        choice(name: 'BRANCH' , choices:['master', 'dockerhub'], description: 'Branch to run the pipeline from') //Define the parameter array to choose the branch from
-        string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
+        choice(name: 'BRANCH' , choices:['dockerhub', 'master'], description: 'Branch to run the pipeline from') //Define the parameter array to choose the branch from
+        string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL') //Define the parameter to input the repository URL
     }
 
     stages {
         stage('Wipe Workspace') {
             steps {
                 echo '***** Starting wipe up working directory *****'
-                deleteDir()
+                deleteDir() // This will delete the workspace directory
                 echo '-------wipe up done-------'
             }
         }
@@ -20,7 +21,7 @@ pipeline {
             steps {
                 script {
                     echo '***** Creating directory *****'
-                    sh 'mkdir -p website_content'
+                    sh 'mkdir -p website_content' // Create a directory to store the website content
                     echo '-------directory created-------'
                 }
             }
@@ -29,6 +30,7 @@ pipeline {
         stage('Checkout website content'){
             steps {
                 echo '***** Checking out website content *****'
+                // Checkout the website content from the specified repository
                 dir ('website_content'){
                     withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
                         git url: "https://${params.REPO_URL}", credentialsId: 'Github_PAT'
@@ -41,6 +43,7 @@ pipeline {
         stage('Dockerize Nginx'){
             steps {
                 echo '***** Dockerizing website on Nginx *****'
+                // Create a Dockerfile and build the Docker image
                 script {
                     sh '''
                         echo "FROM nginx:alpine" > Dockerfile
@@ -53,13 +56,13 @@ pipeline {
             }   
         }
 
-        stage('Wait 10 minutes again') {
+        stage('Wait 5 minutes again') {
             steps {
-                echo '***** Waiting 10 minutes start*****'
+                echo '***** Waiting 5 minutes start*****'
                 script {
-                    sleep time: 10, unit: 'MINUTES'
+                    sleep time: 5, unit: 'MINUTES'
                 }
-                echo '-------Waiting 10 minutes done-------'
+                echo '-------Waiting 5 minutes done-------'
             }
         }
 
