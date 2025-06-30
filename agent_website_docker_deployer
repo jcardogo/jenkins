@@ -1,4 +1,6 @@
 pipeline {
+    // This is a Jenkins pipeline script for deploying a website using Docker and Nginx over dockerhub and running it on a Jenkins agent triggered by github push.
+    
     agent {label params.AGENT_LABEL} //Define the agent to run the pipeline
 
     triggers {
@@ -9,18 +11,16 @@ pipeline {
         choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline') //Define the parameter array to choose the agent from
         choice(name: 'BRANCH' , choices:['master', 'dockerhub'], description: 'Branch to run the pipeline from') //Define the parameter array to choose the branch from
         string(name: 'REPO_URL', defaultValue: 'github.com/jcardogo/AlejandroCardoso_website.git', description: 'Git repository URL')
-        // Parameter for Docker Hub credentials ID
+        // DOCKERHUB parametrs
         string(name: 'DOCKERHUB_CREDENTIALS_ID', defaultValue: 'dockerhub_jcardogo', description: 'Jenkins Credentials ID for Docker Hub login')
-        // Parameter for Docker Hub repository name
         string(name: 'DOCKERHUB_REPO_NAME', defaultValue: 'acardogo', description: 'Docker Hub repository name')
-        // Removed IMAGE_TAG parameter here, as it will be generated automatically
     }
 
     stages {
         stage('Wipe Workspace') {
             steps {
                 echo '***** Starting wipe up working directory *****'
-                deleteDir()
+                deleteDir() // This will delete the current workspace directory
                 echo '-------wipe up done-------'
             }
         }
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     echo '***** Creating directory *****'
-                    sh 'mkdir -p website_content'
+                    sh 'mkdir -p website_content' // Create a directory to hold the website content
                     echo '-------directory created-------'
                 }
             }
@@ -38,6 +38,7 @@ pipeline {
         stage('Checkout website content'){
             steps {
                 echo '***** Checking out website content *****'
+                // Checkout the website content from the specified Git repository
                 dir ('website_content'){
                     withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
                         git url: "https://${params.REPO_URL}", credentialsId: 'Github_PAT', branch: 'master'
@@ -50,6 +51,7 @@ pipeline {
         stage('Dockerize Nginx'){
             steps {
                 echo '***** Dockerizing website on Nginx *****'
+                // Create a Dockerfile to build an Nginx image with the website content
                 script {
                     sh '''
                         echo "FROM nginx:alpine" > Dockerfile
@@ -60,18 +62,6 @@ pipeline {
                 echo '-------Dockerizing done-------'
             }
         }
-        /* commented out to avoid issues with Docker context in Jenkins
-        stage ('Check docker context') {
-            steps {
-                echo '***** Checking Docker context *****'
-                script {
-                    sh 'docker images' // List Docker images to verify the build
-                    sh 'docker context ls' // List all Docker contexts
-                }
-                echo '-------Docker context checked-------'
-            }
-        }
-        */
 
         stage('Push Image to Docker Hub') {
             steps {
@@ -82,14 +72,11 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         def fullImageName = "${DOCKER_USER}/${params.DOCKERHUB_REPO_NAME}:${dockerImageTag}"
                         
-                        echo "Tagging image my-nginx-image:latest as ${fullImageName}"
-                        sh "docker tag my-nginx-image:latest ${fullImageName}"
-                        // Login to Docker Hub using credentials
+                        echo "Tagging image my-nginx-image:latest as ${fullImageName}" // Tag the local image with the full name
+                        sh "docker tag my-nginx-image:latest ${fullImageName}" // Tag the local image with the full name
                         sh "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin" // Login to Docker Hub using password from credentials
-                        
-                        //sh "docker info" // Print Docker info for debugging
-                        echo "Pushing image ${fullImageName} to Docker Hub"
-                        sh "docker push ${fullImageName}"
+                        echo "Pushing image ${fullImageName} to Docker Hub" // Push the tagged image to Docker Hub
+                        sh "docker push ${fullImageName}" // Push the tagged image to Docker Hub
 
                         // Store the full image name in an environment variable for later stages
                         env.FULL_DOCKER_IMAGE_NAME = fullImageName
@@ -103,19 +90,18 @@ pipeline {
             steps {
                 echo '***** Running Docker container locally for testing *****'
                 script {
-                    // Still run the 'latest' local image for simplicity in testing
-                    def containerName = "test-website-${env.BUILD_NUMBER}"
-                    sh 'docker run -d -p 8086:80 --name ' + containerName + ' ' + env.FULL_DOCKER_IMAGE_NAME
+                    def containerName = "test-website-${env.BUILD_NUMBER}" // Unique container name based on build number
+                    sh 'docker run -d -p 8086:80 --name ' + containerName + ' ' + env.FULL_DOCKER_IMAGE_NAME // Run the Docker container in detached mode, mapping port 8086 to port 80 of the container
                 }
                 echo '-------Container running-------'
             }
         }
 
-        stage('Wait 5 minutes (for container to start)') {
+        stage('Wait 3 minutes (for container to start)') {
             steps {
-                echo '***** Waiting 5 minutes for container to start *****'
+                echo '***** Waiting 3 minutes for container to start *****'
                 script {
-                    sleep time: 5, unit: 'MINUTES'
+                    sleep time: 3, unit: 'MINUTES'
                 }
                 echo '-------Waiting done-------'
             }
@@ -129,13 +115,12 @@ pipeline {
                         def pushedImageName = env.FULL_DOCKER_IMAGE_NAME
                         def containerName = "test-website-${env.BUILD_NUMBER}"
 
-                        sh "docker stop ${containerName} || true"
-                        sh "docker rm ${containerName} || true"
-                        sh "docker rmi my-nginx-image:latest || true"
-                        sh "docker rmi ${pushedImageName} || true"
-                        // You might also want to log out if not handled automatically, or just let it expire
-                        sh "docker logout" // Optional: if you want to explicitly log out
-                        sh 'docker system prune -f'
+                        sh "docker stop ${containerName} || true" // Stop the Docker container if it's running
+                        sh "docker rm ${containerName} || true" // Stop and remove the Docker container
+                        sh "docker rmi my-nginx-image:latest || true" // Remove the local Docker image
+                        sh "docker rmi ${pushedImageName} || true" // Remove the pushed image from the local Docker registry
+                        sh "docker logout" // Log out from Docker Hub
+                        sh 'docker system prune -f' // Clean up unused Docker images, containers, and networks
                      }
                 }
                 echo '-------Docker containers and images stopped and removed-------'
