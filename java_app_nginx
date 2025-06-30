@@ -1,0 +1,238 @@
+pipeline {
+    // This is a Jenkins pipeline script for deploying a Java website using Docker and Nginx
+    // over Docker Hub, running it on a Jenkins agent triggered by GitHub push.
+
+    agent {label params.AGENT_LABEL} // Define the agent to run the pipeline
+
+    triggers {
+        githubPush() // Trigger the pipeline on GitHub push events
+    }
+
+    parameters {
+        choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline') // Define the parameter array to choose the agent from
+        choice(name: 'BRANCH' , choices:['master', 'developement', 'QA', 'Staging', 'Production'], description: 'Branch to run the pipeline from') // Define the parameter array to choose the branch from
+        // DOCKERHUB parameters
+        string(name: 'DOCKERHUB_CREDENTIALS_ID', defaultValue: 'dockerhub_jcardogo', description: 'Jenkins Credentials ID for Docker Hub login')
+        string(name: 'DOCKERHUB_REPO_NAME', defaultValue: 'java_app', description: 'Docker Hub repository name (e.g., your Docker Hub username)')
+        // Java Application parameters
+        string(name: 'JAVA_REPO_URL', defaultValue: 'github.com/your-org/your-java-app.git', description: 'Git repository URL for the Java application')
+        string(name: 'JAVA_APP_NAME', defaultValue: 'my-java-app', description: 'Name for the Java application Docker image and container')
+        string(name: 'JAVA_APP_PORT', defaultValue: '8080', description: 'Port on which the Java application listens inside its container')
+    }
+
+    stages {
+        stage('Wipe Workspace') {
+            steps {
+                echo '***** Starting wipe up working directory *****'
+                deleteDir() // This will delete the current workspace directory
+                echo '-------wipe up done-------'
+            }
+        }
+
+        stage('Create Directories'){
+            steps {
+                script {
+                    echo '***** Creating necessary directories *****'
+                    sh 'mkdir -p nginx_content' // Directory for Nginx configuration and static content
+                    sh 'mkdir -p java_app_content' // Directory for Java application source
+                    echo '-------directories created-------'
+                }
+            }
+        }
+
+        stage('Checkout Java Application Content'){
+            steps {
+                echo '***** Checking out Java application content *****'
+                dir ('java_app_content'){
+                    withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
+                        git url: "https://${params.JAVA_REPO_URL}", credentialsId: 'Github_PAT', branch: params.BRANCH
+                    }
+                }
+                echo '-------Java app checkout done-------'
+            }
+        }
+
+        stage('Build Java Application Image'){
+            steps {
+                echo '***** Building Java application and Docker image *****'
+                script {
+                    def dockerImageTag = "${env.BUILD_NUMBER}"
+                    def javaFullImageName = "${params.DOCKERHUB_REPO_NAME}/${params.JAVA_APP_NAME}:${dockerImageTag}"
+
+                    // Step 1: Build the Java application (assuming Maven)
+                    // You might need to install Maven on your Jenkins agent or use a Maven Docker image
+                    sh 'cd java_app_content && mvn clean package'
+
+                    // Step 2: Create Dockerfile for Java application dynamically
+                    sh '''
+                        echo "FROM openjdk:17-jdk-slim" > Dockerfile.java
+                        echo "WORKDIR /app" >> Dockerfile.java
+                        echo "COPY java_app_content/target/*.jar app.jar" >> Dockerfile.java
+                        echo "EXPOSE ${params.JAVA_APP_PORT}" >> Dockerfile.java
+                        echo "ENTRYPOINT [\\"java\\", \\"-jar\\", \\"app.jar\\"]" >> Dockerfile.java
+                    '''
+
+                    // Step 3: Build the Java application Docker image
+                    sh "docker build -t ${javaFullImageName} -f Dockerfile.java ."
+
+                    // Step 4: Push Java image to Docker Hub
+                    withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin"
+                        echo "Pushing Java image ${javaFullImageName} to Docker Hub"
+                        sh "docker push ${javaFullImageName}"
+                    }
+
+                    env.JAVA_FULL_DOCKER_IMAGE_NAME = javaFullImageName
+                }
+                echo '-------Java app image built and pushed-------'
+            }
+        }
+
+        stage('Checkout Nginx Static Content (Optional)'){
+            // This stage is optional. If your Nginx only acts as a reverse proxy,
+            // and doesn't serve any static files, you can remove this stage.
+            steps {
+                echo '***** Checking out Nginx static content (if any) *****'
+                dir ('nginx_content'){
+                    withCredentials([usernamePassword(credentialsId: 'Github_PAT', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PWD')]) {
+                        git url: "https://${params.REPO_URL}", credentialsId: 'Github_PAT', branch: params.BRANCH
+                    }
+                }
+                echo '-------Nginx static content checkout done-------'
+            }
+        }
+
+        stage('Dockerize Nginx Reverse Proxy'){
+            steps {
+                echo '***** Dockerizing Nginx as a reverse proxy *****'
+                script {
+                    // Step 1: Create Nginx configuration file dynamically
+                    // This configures Nginx to listen on port 80 and proxy requests to the Java app container
+                    sh """
+                        echo 'events { worker_connections 1024; }' > nginx_content/nginx.conf
+                        echo 'http {' >> nginx_content/nginx.conf
+                        echo '    include /etc/nginx/mime.types;' >> nginx_content/nginx.conf
+                        echo '    default_type application/octet-stream;' >> nginx_content/nginx.conf
+                        echo '    sendfile on;' >> nginx_content/nginx.conf
+                        echo '    keepalive_timeout 65;' >> nginx_content/nginx.conf
+                        echo '    server {' >> nginx_content/nginx.conf
+                        echo '        listen 80;' >> nginx_content/nginx.conf
+                        echo '        server_name localhost;' >> nginx_content/nginx.conf
+                        echo '        location / {' >> nginx_content/nginx.conf
+                        echo '            proxy_pass http://${params.JAVA_APP_NAME}:${params.JAVA_APP_PORT};' >> nginx_content/nginx.conf // Proxy to the Java app container
+                        echo '            proxy_set_header Host \$host;' >> nginx_content/nginx.conf
+                        echo '            proxy_set_header X-Real-IP \$remote_addr;' >> nginx_content/nginx.conf
+                        echo '            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' >> nginx_content/nginx.conf
+                        echo '            proxy_set_header X-Forwarded-Proto \$scheme;' >> nginx_content/nginx.conf
+                        echo '        }' >> nginx_content/nginx.conf
+                        // Optional: If you have static Nginx content, uncomment and adjust this section
+                        // echo '        location /static/ {' >> nginx_content/nginx.conf
+                        // echo '            root /usr/share/nginx/html;' >> nginx_content/nginx.conf
+                        // echo '            try_files \$uri \$uri/ =404;' >> nginx_content/nginx.conf
+                        // echo '        }' >> nginx_content/nginx.conf
+                        echo '    }' >> nginx_content/nginx.conf
+                        echo '}' >> nginx_content/nginx.conf
+                    """
+
+                    // Step 2: Create Dockerfile for Nginx
+                    sh '''
+                        echo "FROM nginx:alpine" > Dockerfile.nginx
+                        echo "COPY nginx_content/nginx.conf /etc/nginx/nginx.conf" >> Dockerfile.nginx
+                        // If you have static content, uncomment this line:
+                        // echo "COPY nginx_content/ /usr/share/nginx/html/" >> Dockerfile.nginx
+                        docker build -t my-nginx-proxy-image:latest -f Dockerfile.nginx .
+                    '''
+                }
+                echo '-------Nginx Dockerizing done-------'
+            }
+        }
+
+        stage('Push Nginx Image to Docker Hub') {
+            steps {
+                echo '***** Pushing Nginx image to Docker Hub *****'
+                script {
+                    def dockerImageTag = "${env.BUILD_NUMBER}"
+                    def nginxFullImageName = "${params.DOCKERHUB_REPO_NAME}/nginx-proxy:${dockerImageTag}" // Unique name for Nginx image
+
+                    withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        echo "Tagging Nginx image my-nginx-proxy-image:latest as ${nginxFullImageName}"
+                        sh "docker tag my-nginx-proxy-image:latest ${nginxFullImageName}"
+                        sh "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin"
+                        echo "Pushing Nginx image ${nginxFullImageName} to Docker Hub"
+                        sh "docker push ${nginxFullImageName}"
+
+                        env.NGINX_FULL_DOCKER_IMAGE_NAME = nginxFullImageName
+                    }
+                }
+                echo '-------Nginx Image pushed to Docker Hub-------'
+            }
+        }
+
+        stage('Run Docker Containers (Temporary for testing)'){
+            steps {
+                echo '***** Running Docker containers locally for testing *****'
+                script {
+                    def networkName = "app-network-${env.BUILD_NUMBER}"
+                    def javaContainerName = "${params.JAVA_APP_NAME}-container-${env.BUILD_NUMBER}"
+                    def nginxContainerName = "nginx-proxy-container-${env.BUILD_NUMBER}"
+
+                    // Create a custom Docker network for inter-container communication
+                    sh "docker network create --attachable ${networkName} || true"
+
+                    // Run the Java application container
+                    echo "Running Java app container: ${javaContainerName}"
+                    sh "docker run -d --name ${javaContainerName} --network ${networkName} --env JAVA_APP_PORT=${params.JAVA_APP_PORT} ${env.JAVA_FULL_DOCKER_IMAGE_NAME}"
+
+                    // Run the Nginx reverse proxy container
+                    echo "Running Nginx proxy container: ${nginxContainerName}"
+                    // Map agent's port 8086 to Nginx's port 80
+                    sh "docker run -d --name ${nginxContainerName} --network ${networkName} -p 8086:80 ${env.NGINX_FULL_DOCKER_IMAGE_NAME}"
+                }
+                echo '-------Containers running-------'
+            }
+        }
+
+        stage('Wait 3 minutes (for containers to start)') {
+            steps {
+                echo '***** Waiting 3 minutes for containers to start *****'
+                script {
+                    // In a real scenario, consider implementing a health check instead of a fixed sleep
+                    sleep time: 3, unit: 'MINUTES'
+                }
+                echo '-------Waiting done-------'
+            }
+        }
+
+        stage('Stop and remove Docker containers and network') {
+            steps {
+                echo '***** Stopping and removing Docker containers, images, and network *****'
+                script {
+                    def javaContainerName = "${params.JAVA_APP_NAME}-container-${env.BUILD_NUMBER}"
+                    def nginxContainerName = "nginx-proxy-container-${env.BUILD_NUMBER}"
+                    def networkName = "app-network-${env.BUILD_NUMBER}"
+
+                    // Stop and remove containers
+                    sh "docker stop ${javaContainerName} || true"
+                    sh "docker rm ${javaContainerName} || true"
+                    sh "docker stop ${nginxContainerName} || true"
+                    sh "docker rm ${nginxContainerName} || true"
+
+                    // Remove local images
+                    sh "docker rmi ${env.JAVA_FULL_DOCKER_IMAGE_NAME} || true"
+                    sh "docker rmi ${env.NGINX_FULL_DOCKER_IMAGE_NAME} || true"
+                    sh "docker rmi my-nginx-proxy-image:latest || true" // Local build image for Nginx
+
+                    // Remove the custom network
+                    sh "docker network rm ${networkName} || true"
+
+                    // Logout from Docker Hub
+                    sh "docker logout || true" // Add || true for robustness
+
+                    // Clean up unused Docker resources
+                    sh 'docker system prune -f'
+                }
+                echo '-------Docker containers, images, and network stopped and removed-------'
+            }
+        }
+    }
+}
