@@ -2,6 +2,10 @@ pipeline {
     // This pipeline deploys a website using local Docker and Nginx for 5 minutes and then stop removes the Docker containers.
     agent {label params.AGENT_LABEL} //Define the agent to run the pipeline
 
+    triggers {
+        githubPush() // This is the key for triggering on GitHub pushes
+    }
+
     parameters {
         choice(name: 'AGENT_LABEL', choices:['local', 'agent1', 'agent2', 'agent3', 'agent4'], description: 'Agent to run the pipeline') //Define the parameter array to choose the agent from
         choice(name: 'BRANCH' , choices:['dockerhub', 'master'], description: 'Branch to run the pipeline from') //Define the parameter array to choose the branch from
